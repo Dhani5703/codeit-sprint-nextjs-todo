@@ -1,32 +1,36 @@
+// components/TodoList.tsx
 import React from 'react';
-import TodoItem from './TodoItem';
 
-type Todo = {
-  id: number;
-  text: string;
+interface Todo {
+  id: string;
+  title: string;
   completed: boolean;
-};
+}
 
-type TodoListProps = {
+interface TodoListProps {
   todos: Todo[];
-  setTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
-};
+  toggleTodoCompletion: (id: string, completed: boolean) => void;
+  removeTodo: (id: string) => void;
+}
 
-const TodoList: React.FC<TodoListProps> = ({ todos, setTodos }) => {
-  // 할 일 상태 토글 함수 (진행 중 / 완료)
-  const toggleCompletion = (id: number) => {
-    const updatedTodos = todos.map((todo) =>
-      todo.id === id ? { ...todo, completed: !todo.completed } : todo
-    );
-    setTodos(updatedTodos); // 상태 업데이트
-  };
-
-  return (
-    <div>
+const TodoList: React.FC<TodoListProps> = ({ todos, toggleTodoCompletion, removeTodo }) => {
+    if (!todos || todos.length === 0) {
+        return <div>No todos available.</div>; // 항목이 없을 때 메시지 출력
+      }
+    return (
+    <ul>
       {todos.map((todo) => (
-        <TodoItem key={todo.id} todo={todo} toggleCompletion={toggleCompletion} />
+        <li key={todo.id}>
+          <input
+            type="checkbox"
+            checked={todo.completed}
+            onChange={() => toggleTodoCompletion(todo.id, !todo.completed)}
+          />
+          {todo.title}
+          <button onClick={() => removeTodo(todo.id)}>삭제</button>
+        </li>
       ))}
-    </div>
+    </ul>
   );
 };
 
