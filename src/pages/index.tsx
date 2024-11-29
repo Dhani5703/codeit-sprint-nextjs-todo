@@ -36,9 +36,8 @@ const Home = () => {
   // 할 일 추가
   const addTodo = async () => {
     if (!newTodo.trim()) return;
-    const todoData = { name: newTodo };
     try {
-      const createdTodo = await createTodoItem(tenantId, todoData);
+      const createdTodo = await createTodoItem(tenantId, { name: newTodo });
       setTodos((prevTodos) => [
         ...prevTodos,
         { id: createdTodo.id, text: createdTodo.name, completed: createdTodo.isCompleted },
@@ -49,12 +48,10 @@ const Home = () => {
     }
   };
 
-  // 완료 상태 토글 
   // 완료 상태 토글
   const toggleTodoComplete = async (itemId, isCompleted) => {
     try {
-      const updatedData = { isCompleted: !isCompleted }; // 완료 상태 토글
-      const updatedTodo = await updateTodoItem(itemId, updatedData); // API 호출
+      const updatedTodo = await updateTodoItem(itemId, { isCompleted: !isCompleted }); // API 호출
       console.log('완료 상태 변경: ', updatedTodo); // API 응답 출력
       // UI 업데이트
       setTodos((prevTodos) =>

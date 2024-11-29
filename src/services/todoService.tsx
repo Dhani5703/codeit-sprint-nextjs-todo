@@ -11,7 +11,7 @@ import { tenantId } from '../utils/apiClient';
 export const createTodoItem = async (tenantId: string, todoData: { name: string }) => {
     try {
       const response = await apiClient.post(`/${tenantId}/items`, todoData); // 백틱 사용
-      console.log('추가된 todo: ',response.data);
+      //console.log('추가된 todo: ',response.data);
       return response.data;
     } catch (error) {
       console.error('Error creating todo item:', error);
@@ -28,7 +28,7 @@ export const fetchTodoItems = async (tenantId: string, page = 1, pageSize = 10) 
   const response = await apiClient.get(`/${tenantId}/items`, {
     params: { page, pageSize },
   });
-  console.log('todo 목록: ',response.data);
+  //console.log('todo 목록: ',response.data);
   return response.data;
 };
 
@@ -43,7 +43,7 @@ export const fetchTodoItemById = async (tenantId: string, itemId: number) => {
   }
   try {
     const response = await apiClient.get(`/${tenantId}/items/${itemId}`);
-    console.log('상세 조회:', response.data);
+    //console.log('상세 조회:', response.data);
     return response.data;
   } catch (error) {
     console.error('Failed to fetch todo item details:', error);
@@ -54,15 +54,21 @@ export const fetchTodoItemById = async (tenantId: string, itemId: number) => {
  /**
   * Todo 항목 수정 API(상태 변경)
   * @param itemId - 수정할 Todo 항목의 ID
-  * @param updatedData - 수정할 데이터 (title, description, status 등)
+  * @param updatedData - 수정할 데이터 (title, status, iscomplete, memo 등)
   */
  export const updateTodoItem = async (
-   itemId: number,
-   updatedData: { isCompleted: boolean }
- ) => {
-   const response = await apiClient.patch(`/${tenantId}/items/${itemId}`, updatedData);
-   return response.data;
- };
+  itemId: number,  // itemId는 숫자여야 합니다.
+  updatedData: { isCompleted: boolean, memo: string, name: string, imageUrl: string }
+) => {
+  try {
+    const response = await apiClient.patch(`/${tenantId}/items/${itemId}`, updatedData);
+    return response.data;
+  } catch (error) {
+    console.error("Error updating todo item:", error.response?.data || error.message);
+    throw error;  // 오류를 호출자에게 전달
+  }
+};
+
 
 /**
  * Todo 항목 삭제 API
