@@ -1,26 +1,35 @@
 import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/router'; // 라우팅을 위해 추가
 import Header from '../components/Header';
 import TodoList from '../components/TodoList';
-import { fetchTodoItems, createTodoItem } from '../services/todoService';
+import {
+  fetchTodoItems,
+  createTodoItem,
+  fetchTodoItemById,
+  updateTodoItem,
+  deleteTodoItem,
+} from '../services/todoService';
 
-const tenantId = process.env.NEXT_PUBLIC_TENANT_ID || ''; // .env에서 가져오기
+import { tenantId } from '../utils/apiClient';
+
+//const tenantId = process.env.NEXT_PUBLIC_TENANT_ID || ''; // .env에서 tenantId 가져오기
 
 const Home = () => {
   const [todos, setTodos] = useState([]);
   const [newTodo, setNewTodo] = useState('');
+  const router = useRouter();
 
   // 초기 데이터 로드
   useEffect(() => {
     const loadTodos = async () => {
       try {
         const items = await fetchTodoItems(tenantId);
-        setTodos(
-          items.map((item) => ({
-            id: item.id,
-            text: item.name, // API 응답의 name 필드를 사용
-            completed: item.isCompleted,
-          }))
-        );
+        const mappedTodos = items.map((item) => ({
+          id: item.id,
+          text: item.name,
+          completed: item.isCompleted,
+        }));
+        setTodos(mappedTodos);
       } catch (error) {
         console.error('Failed to fetch todos:', error);
       }
@@ -28,25 +37,25 @@ const Home = () => {
     loadTodos();
   }, []);
 
-  // 할 일 추가 함수
+  // 할 일 추가
   const addTodo = async () => {
     if (!newTodo.trim()) return;
-
     const todoData = { name: newTodo };
     try {
       const createdTodo = await createTodoItem(tenantId, todoData);
       setTodos((prevTodos) => [
         ...prevTodos,
-        {
-          id: createdTodo.id,
-          text: createdTodo.name, // name 필드를 text로 매핑
-          completed: createdTodo.isCompleted,
-        },
+        { id: createdTodo.id, text: createdTodo.name, completed: createdTodo.isCompleted },
       ]);
       setNewTodo('');
     } catch (error) {
       console.error('Failed to create todo item:', error);
     }
+  };
+
+  // 상세 페이지로 이동
+  const viewTodoDetails = (itemId) => {
+    router.push(`/items/${itemId}`); // 상세 페이지로 라우팅
   };
 
   return (
@@ -63,7 +72,10 @@ const Home = () => {
           placeholder="할 일을 입력하세요"
         />
         <button onClick={addTodo}>추가하기</button>
-        <TodoList todos={todos} setTodos={setTodos} />
+        <TodoList
+          todos={todos}
+          onViewDetails={viewTodoDetails} // 상세 보기 콜백
+        />
       </div>
     </div>
   );

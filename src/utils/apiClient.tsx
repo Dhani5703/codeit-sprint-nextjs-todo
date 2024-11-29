@@ -7,6 +7,6 @@ const apiClient = axios.create({
   },
 });
 
-// export const tenantId = process.env.NEXT_PUBLIC_TENANT_ID; // 테넌트 ID
+export const tenantId = process.env.NEXT_PUBLIC_TENANT_ID; // 테넌트 ID
 
 export default apiClient;
