@@ -26,7 +26,7 @@ const TodoList: React.FC<TodoListProps> = ({ todos, toggleTodoCompletion, remove
             checked={todo.completed}
             onChange={() => toggleTodoCompletion(todo.id, !todo.completed)}
           />
-          {todo.title}
+          {todo.text}
           <button onClick={() => removeTodo(todo.id)}>삭제</button>
         </li>
       ))}

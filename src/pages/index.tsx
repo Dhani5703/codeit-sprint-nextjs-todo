@@ -1,43 +1,53 @@
-// pages/index.tsx
-
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from '../components/Header';
 import TodoList from '../components/TodoList';
 import { fetchTodoItems, createTodoItem } from '../services/todoService';
 
-const Home = () => {
-  const [todos, setTodos] = useState<any[]>([]); // 빈 배열로 초기화
-  const [newTodo, setNewTodo] = useState('');
-  const [tenantId, setTenantId] = useState('your-tenant-id'); // tenantId는 고정 값으로 설정하거나, 다른 방식으로 받으세요.
+const tenantId = process.env.NEXT_PUBLIC_TENANT_ID || ''; // .env에서 가져오기
 
-  // 할 일 목록 조회 함수
-  const loadTodos = async () => {
-    try {
-      const fetchedTodos = await fetchTodoItems(tenantId, 1, 10); // tenantId와 페이지 정보를 API에 전달
-      setTodos(fetchedTodos); // API에서 받은 데이터로 todos 상태 갱신
-    } catch (error) {
-      console.error('Failed to fetch todo items:', error);
-    }
-  };
+const Home = () => {
+  const [todos, setTodos] = useState([]);
+  const [newTodo, setNewTodo] = useState('');
+
+  // 초기 데이터 로드
+  useEffect(() => {
+    const loadTodos = async () => {
+      try {
+        const items = await fetchTodoItems(tenantId);
+        setTodos(
+          items.map((item) => ({
+            id: item.id,
+            text: item.name, // API 응답의 name 필드를 사용
+            completed: item.isCompleted,
+          }))
+        );
+      } catch (error) {
+        console.error('Failed to fetch todos:', error);
+      }
+    };
+    loadTodos();
+  }, []);
 
   // 할 일 추가 함수
   const addTodo = async () => {
-    if (!newTodo.trim()) return; // 입력값이 없으면 추가하지 않음
+    if (!newTodo.trim()) return;
 
-    const todoData = { name: newTodo }; // API에 전달할 데이터 구성
+    const todoData = { name: newTodo };
     try {
-      const createdTodo = await createTodoItem(tenantId, todoData); // todo 추가 API 호출
-      setTodos((prevTodos) => [...prevTodos, createdTodo]); // 새로 생성된 todo 항목을 추가
-      setNewTodo(''); // 입력창 초기화
+      const createdTodo = await createTodoItem(tenantId, todoData);
+      setTodos((prevTodos) => [
+        ...prevTodos,
+        {
+          id: createdTodo.id,
+          text: createdTodo.name, // name 필드를 text로 매핑
+          completed: createdTodo.isCompleted,
+        },
+      ]);
+      setNewTodo('');
     } catch (error) {
       console.error('Failed to create todo item:', error);
     }
   };
-
-  // 컴포넌트가 처음 렌더링될 때 할 일 목록을 불러옴
-  useEffect(() => {
-    loadTodos();
-  }, [tenantId]);
 
   return (
     <div>
