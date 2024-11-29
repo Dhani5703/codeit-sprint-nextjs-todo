@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { fetchTodoItemById, updateTodoItem, deleteTodoItem } from '../../services/todoService';
+import { fetchTodoItemById, updateTodoItem, deleteTodoItem, uploadImage } from '../../services/todoService';
 import { tenantId } from '../../utils/apiClient';
+import Header from '../../components/Header';
 
 const TodoDetailPage = () => {
-  const [todo, setTodo] = useState(null);
+  const [todo, setTodo] = useState<any>(null);  // 초기 상태를 null로 설정
   const [editedMemo, setEditedMemo] = useState<string>('');
   const router = useRouter();
   const { itemId } = router.query;
@@ -28,6 +29,7 @@ const TodoDetailPage = () => {
 
   // 완료 여부 토글
   const toggleCompletion = async () => {
+    if (!todo) return;  // todo가 없으면 아무 것도 하지 않음
     try {
       const updatedTodo = await updateTodoItem(Number(itemId), { isCompleted: !todo.isCompleted });
       setTodo(updatedTodo);
@@ -45,7 +47,6 @@ const TodoDetailPage = () => {
     try {
       const updatedItem = await updateTodoItem(Number(itemId), {memo: editedMemo});
       setTodo(updatedItem);  // 수정된 항목을 todo 상태에 반영
-      //console.log("메모 수정됨: ", updatedItem);  // 수정된 메모를 콘솔에서 확인
       alert('메모가 수정되었습니다.');
     } catch (error) {
       console.error("Error updating todo item:", error);
@@ -53,9 +54,24 @@ const TodoDetailPage = () => {
     }
   };
 
-const handleMemoChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-  setEditedMemo(e.target.value);  // 메모를 변경할 때마다 memo 상태 업데이트
-};
+  const handleMemoChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setEditedMemo(e.target.value);  // 메모를 변경할 때마다 memo 상태 업데이트
+  };
+
+  const handleImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      try {
+        const uploadedImageUrl = await uploadImage(file);
+        setTodo((prevTodo: any) => ({
+          ...prevTodo,
+          imageUrl: uploadedImageUrl,  // imageUrl을 업데이트
+        }));
+      } catch (error) {
+        console.error('Failed to upload image:', error);
+      }
+    }
+  };
 
   // 삭제
   const handleDelete = async () => {
@@ -71,11 +87,11 @@ const handleMemoChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     }
   };
 
-  if (!todo) return <div>Loading...</div>;
+  if (!todo) return <div>Loading...</div>;  // todo가 로드되기 전에 렌더링 하지 않도록 방지
 
   return (
     <div>
-      <h1>Todo 상세 보기</h1>
+      <Header />
       <div>
         <label>
           <input
@@ -86,23 +102,44 @@ const handleMemoChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
           {todo.name}
         </label>
       </div>
-      <div>
-        <strong>메모:</strong>
-        <textarea
-          id="memo"
-          value={editedMemo || ''}
-          onChange={handleMemoChange}
-          rows={4}
-          cols={40}
-          style={{ display: 'block', marginTop: '8px' }}
-        />
-        <button onClick={handleUpdate} style={{ marginTop: '8px' }}>
-          수정 완료
+      <div className="container mx-auto p-4">
+        <div className="flex flex-col md:flex-row">
+          {/* 이미지 업로드 칸 */}
+          <div className="w-full md:w-1/3 mb-4 md:mb-0">
+            <h2 className="text-xl font-semibold mb-4">이미지 업로드</h2>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleImageChange}
+              className="border p-2"
+            />
+            {todo.imageUrl && (
+              <img
+                src={todo.imageUrl}
+                alt="Uploaded"
+                className="mt-4 max-w-full h-auto"
+              />
+            )}
+          </div>
+          <div className="w-full md:w-2/3 ml-0 md:ml-8">
+            <h2 className="text-xl font-semibold mb-4">메모</h2>
+            <textarea
+              id="memo"
+              value={editedMemo || ''}
+              onChange={handleMemoChange}
+              rows={4}
+              cols={40}
+              style={{ display: 'block', marginTop: '8px' }}
+            />
+            <button onClick={handleUpdate} style={{ marginTop: '8px' }}>
+              수정 완료
+            </button>
+          </div>
+        </div>
+        <button onClick={handleDelete} style={{ marginTop: '16px', color: 'red' }}>
+          삭제하기
         </button>
       </div>
-      <button onClick={handleDelete} style={{ marginTop: '16px', color: 'red' }}>
-        삭제하기
-      </button>
     </div>
   );
 };

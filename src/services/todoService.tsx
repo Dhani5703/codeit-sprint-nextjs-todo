@@ -69,14 +69,35 @@ export const fetchTodoItemById = async (tenantId: string, itemId: number) => {
   }
 };
 
-
 /**
  * Todo 항목 삭제 API
- * @param itemId - 삭제할 Todo 항목의 ID
+ * @param itemId - 이미지를 업로드할 Todo 항목의 ID
  */
 export const deleteTodoItem = async (
   tenantId: string,
   itemId: number) => {
   const response = await apiClient.delete(`/${tenantId}/items/${itemId}`);
   return response.data;
+};
+
+/**
+ * 이미지 업로드 API
+ * @param file - 업로드할 이미지 파일
+ */
+export const uploadImage = async (file: File): Promise<string> => {
+  const formData = new FormData();
+  formData.append('file', file);  // 'file' 필드에 실제 이미지 파일 추가
+
+  try {
+    // axios로 이미지 파일을 업로드
+    const response = await apiClient.post(`/${tenantId}/images/upload`, formData);
+
+    if (response.status === 200) {
+      return response.data.url;  // 성공적으로 URL을 반환
+    } else {
+      throw new Error(`Failed to upload image. Server responded with status ${response.status}`);
+    }
+  } catch (error: any) {
+    console.error('Error uploading image:', error.response.data);  // 서버 오류 메시지
+  };
 };

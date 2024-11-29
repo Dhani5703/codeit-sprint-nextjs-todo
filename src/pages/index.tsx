@@ -1,7 +1,8 @@
+// pages/index.tsx
 import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/router'; // 라우팅을 위해 추가
+import { useRouter } from 'next/router';
 import Header from '../components/Header';
-import TodoList from '../components/TodoList';
+import TodoList from '../components/TodoList'; // TodoList 컴포넌트 임포트
 import {
   fetchTodoItems,
   createTodoItem,
@@ -39,8 +40,8 @@ const Home = () => {
     try {
       const createdTodo = await createTodoItem(tenantId, { name: newTodo });
       setTodos((prevTodos) => [
+        ...prevTodos,
         { id: createdTodo.id, text: createdTodo.name, completed: createdTodo.isCompleted },
-        ...prevTodos
       ]);
       setNewTodo('');
     } catch (error) {
@@ -49,11 +50,9 @@ const Home = () => {
   };
 
   // 완료 상태 토글
-  const toggleTodoComplete = async (itemId, isCompleted) => {
+  const toggleTodoComplete = async (itemId: string, isCompleted: boolean) => {
     try {
-      const updatedTodo = await updateTodoItem(itemId, { isCompleted: !isCompleted }); // API 호출
-      //console.log('완료 상태 변경: ', updatedTodo); // API 응답 출력
-      // UI 업데이트
+      const updatedTodo = await updateTodoItem(itemId, { isCompleted: !isCompleted });
       setTodos((prevTodos) =>
         prevTodos.map((todo) =>
           todo.id === itemId ? { ...todo, completed: updatedTodo.isCompleted } : todo
@@ -64,9 +63,8 @@ const Home = () => {
     }
   };
 
-
   // 상세 페이지로 이동
-  const viewTodoDetails = (itemId) => {
+  const viewTodoDetails = (itemId: string) => {
     router.push(`/items/${itemId}`); // 상세 페이지로 라우팅
   };
 
@@ -82,13 +80,33 @@ const Home = () => {
             if (e.key === 'Enter') addTodo();
           }}
           placeholder="할 일을 입력하세요"
+          className="border p-2 mb-4"
         />
-        <button onClick={addTodo}>추가하기</button>
-        <TodoList
-          todos={todos}
-          onViewDetails={viewTodoDetails} // 상세 보기 콜백
-          onToggleComplete={toggleTodoComplete} // 완료 상태 변경 콜백
-        />
+        <button onClick={addTodo} className="bg-blue-500 text-white p-2 mb-4">
+          추가하기
+        </button>
+
+        <div className="flex flex-col md:flex-row md:space-x-8">
+          {/* 진행 중인 할 일 */}
+          <div className="todo-list w-full md:w-1/2">
+            <h2 className="text-xl font-semibold mb-4"> TODO </h2>
+            <TodoList
+              todos={todos.filter(todo => !todo.completed)} // 진행 중인 할 일 필터링
+              onToggleComplete={toggleTodoComplete}
+              onViewDetails={viewTodoDetails} // 상세보기 콜백 전달
+            />
+          </div>
+
+          {/* 완료된 할 일 */}
+          <div className="todo-list w-full md:w-1/2 mt-8 md:mt-0">
+            <h2 className="text-xl font-semibold mb-4"> DONE </h2>
+            <TodoList
+              todos={todos.filter(todo => todo.completed)} // 완료된 할 일 필터링
+              onToggleComplete={toggleTodoComplete}
+              onViewDetails={viewTodoDetails} // 상세보기 콜백 전달
+            />
+          </div>
+        </div>
       </div>
     </div>
   );
