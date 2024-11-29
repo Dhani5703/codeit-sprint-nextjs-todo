@@ -39,8 +39,8 @@ const Home = () => {
     try {
       const createdTodo = await createTodoItem(tenantId, { name: newTodo });
       setTodos((prevTodos) => [
-        ...prevTodos,
         { id: createdTodo.id, text: createdTodo.name, completed: createdTodo.isCompleted },
+        ...prevTodos
       ]);
       setNewTodo('');
     } catch (error) {
@@ -52,7 +52,7 @@ const Home = () => {
   const toggleTodoComplete = async (itemId, isCompleted) => {
     try {
       const updatedTodo = await updateTodoItem(itemId, { isCompleted: !isCompleted }); // API 호출
-      console.log('완료 상태 변경: ', updatedTodo); // API 응답 출력
+      //console.log('완료 상태 변경: ', updatedTodo); // API 응답 출력
       // UI 업데이트
       setTodos((prevTodos) =>
         prevTodos.map((todo) =>
