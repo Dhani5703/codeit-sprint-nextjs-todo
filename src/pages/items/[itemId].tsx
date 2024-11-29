@@ -4,7 +4,6 @@ import { useRouter } from 'next/router';
 import { fetchTodoItemById } from '../../services/todoService';
 import { tenantId } from '../../utils/apiClient';
 
-//export const tenantId = process.env.NEXT_PUBLIC_TENANT_ID; // 테넌트 ID
 
 const TodoDetailPage = () => {
   const [todo, setTodo] = useState(null);

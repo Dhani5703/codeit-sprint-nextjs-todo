@@ -11,7 +11,7 @@ import { tenantId } from '../utils/apiClient';
 export const createTodoItem = async (tenantId: string, todoData: { name: string }) => {
     try {
       const response = await apiClient.post(`/${tenantId}/items`, todoData); // 백틱 사용
-      console.log(response.data);
+      console.log('추가된 todo: ',response.data);
       return response.data;
     } catch (error) {
       console.error('Error creating todo item:', error);
@@ -28,7 +28,7 @@ export const fetchTodoItems = async (tenantId: string, page = 1, pageSize = 10) 
   const response = await apiClient.get(`/${tenantId}/items`, {
     params: { page, pageSize },
   });
-  console.log(response.data);
+  console.log('todo 목록: ',response.data);
   return response.data;
 };
 
@@ -41,9 +41,9 @@ export const fetchTodoItemById = async (tenantId: string, itemId: number) => {
   if (!tenantId || !itemId) {
     throw new Error('Invalid tenantId or itemId');
   }
-  console.log('tenantId:', tenantId, 'itemId:', itemId); // 추가된 로그
   try {
     const response = await apiClient.get(`/${tenantId}/items/${itemId}`);
+    console.log('상세 조회:', response.data);
     return response.data;
   } catch (error) {
     console.error('Failed to fetch todo item details:', error);
@@ -51,25 +51,26 @@ export const fetchTodoItemById = async (tenantId: string, itemId: number) => {
   }
 };
 
+ /**
+  * Todo 항목 수정 API(상태 변경)
+  * @param itemId - 수정할 Todo 항목의 ID
+  * @param updatedData - 수정할 데이터 (title, description, status 등)
+  */
+ export const updateTodoItem = async (
+   itemId: number,
+   updatedData: { isCompleted: boolean }
+ ) => {
+   const response = await apiClient.patch(`/${tenantId}/items/${itemId}`, updatedData);
+   return response.data;
+ };
 
-// /**
-//  * Todo 항목 수정 API
-//  * @param itemId - 수정할 Todo 항목의 ID
-//  * @param updatedData - 수정할 데이터 (title, description, status 등)
-//  */
-// export const updateTodoItem = async (
-//   itemId: string,
-//   updatedData: { title?: string; description?: string; status?: 'pending' | 'completed' }
-// ) => {
-//   const response = await apiClient.patch(`/items/${itemId}`, updatedData);
-//   return response.data;
-// };
-
-// /**
-//  * Todo 항목 삭제 API
-//  * @param itemId - 삭제할 Todo 항목의 ID
-//  */
-// export const deleteTodoItem = async (itemId: string) => {
-//   const response = await apiClient.delete(`/items/${itemId}`);
-//   return response.data;
-// };
+/**
+ * Todo 항목 삭제 API
+ * @param itemId - 삭제할 Todo 항목의 ID
+ */
+export const deleteTodoItem = async (
+  tenantId: string,
+  itemId: number) => {
+  const response = await apiClient.delete(`/${tenantId}/items/${itemId}`);
+  return response.data;
+};

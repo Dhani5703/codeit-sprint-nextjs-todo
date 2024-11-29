@@ -5,14 +5,10 @@ import TodoList from '../components/TodoList';
 import {
   fetchTodoItems,
   createTodoItem,
-  fetchTodoItemById,
-  updateTodoItem,
-  deleteTodoItem,
+  updateTodoItem
 } from '../services/todoService';
 
 import { tenantId } from '../utils/apiClient';
-
-//const tenantId = process.env.NEXT_PUBLIC_TENANT_ID || ''; // .env에서 tenantId 가져오기
 
 const Home = () => {
   const [todos, setTodos] = useState([]);
@@ -53,6 +49,25 @@ const Home = () => {
     }
   };
 
+  // 완료 상태 토글 
+  // 완료 상태 토글
+  const toggleTodoComplete = async (itemId, isCompleted) => {
+    try {
+      const updatedData = { isCompleted: !isCompleted }; // 완료 상태 토글
+      const updatedTodo = await updateTodoItem(itemId, updatedData); // API 호출
+      console.log('완료 상태 변경: ', updatedTodo); // API 응답 출력
+      // UI 업데이트
+      setTodos((prevTodos) =>
+        prevTodos.map((todo) =>
+          todo.id === itemId ? { ...todo, completed: updatedTodo.isCompleted } : todo
+        )
+      );
+    } catch (error) {
+      console.error('Failed to update todo item:', error);
+    }
+  };
+
+
   // 상세 페이지로 이동
   const viewTodoDetails = (itemId) => {
     router.push(`/items/${itemId}`); // 상세 페이지로 라우팅
@@ -75,6 +90,7 @@ const Home = () => {
         <TodoList
           todos={todos}
           onViewDetails={viewTodoDetails} // 상세 보기 콜백
+          onToggleComplete={toggleTodoComplete} // 완료 상태 변경 콜백
         />
       </div>
     </div>
