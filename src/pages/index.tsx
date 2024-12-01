@@ -10,8 +10,22 @@ import {
 } from "../services/todoService";
 import { tenantId } from "../utils/apiClient";
 
+const safeTenantId = tenantId as string;
+
+interface TodoItem {
+  id: number;
+  name: string;
+  isCompleted: boolean;
+}
+
+interface Todo {
+  id: number;
+  text: string;
+  completed: boolean;
+}
+
 const Home = () => {
-  const [todos, setTodos] = useState([]);
+  const [todos, setTodos] = useState<Todo[]>([]);
   const [newTodo, setNewTodo] = useState("");
   const router = useRouter();
 
@@ -19,8 +33,8 @@ const Home = () => {
   useEffect(() => {
     const loadTodos = async () => {
       try {
-        const items = await fetchTodoItems(tenantId || "");
-        const mappedTodos = items.map((item) => ({
+        const items = await fetchTodoItems(safeTenantId  || "");
+        const mappedTodos = items.map((item: TodoItem) => ({
           id: item.id,
           text: item.name,
           completed: item.isCompleted,
@@ -37,7 +51,7 @@ const Home = () => {
   const addTodo = async () => {
     if (!newTodo.trim()) return;
     try {
-      const createdTodo = await createTodoItem(tenantId, { name: newTodo });
+      const createdTodo = await createTodoItem(safeTenantId , { name: newTodo });
       setTodos((prevTodos) => [
         ...prevTodos,
         { id: createdTodo.id, text: createdTodo.name, completed: createdTodo.isCompleted },
@@ -51,7 +65,12 @@ const Home = () => {
   // 완료 상태 토글
   const toggleTodoComplete = async (itemId: string, isCompleted: boolean) => {
     try {
-      const updatedTodo = await updateTodoItem(itemId, { isCompleted: !isCompleted });
+      const updatedTodo = await updateTodoItem(Number(itemId), { 
+        isCompleted: !isCompleted
+      ,memo: todo.memo,       // 기존 memo 값
+      name: todo.name,       // 기존 name 값
+      imageUrl: todo.imageUrl, // 기존 imageUrl 값
+      });
       setTodos((prevTodos) =>
         prevTodos.map((todo) =>
           todo.id === itemId ? { ...todo, completed: updatedTodo.isCompleted } : todo
