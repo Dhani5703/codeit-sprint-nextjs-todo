@@ -1,3 +1,4 @@
+// components/TodoList.tsx
 import React from 'react';
 import TodoItem from './TodoItem'; // TodoItem 컴포넌트 임포트
 
@@ -30,6 +31,5 @@ const TodoList: React.FC<TodoListProps> = ({ todos, onToggleComplete, onViewDeta
     </div>
   );
 };
-
 
 export default TodoList;

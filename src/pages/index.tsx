@@ -137,6 +137,7 @@ const viewTodoDetails = (itemId) => {
                 todos={todos.filter((todo) => !todo.completed)}
                 onToggleComplete={toggleTodoComplete}
                 onViewDetails={viewTodoDetails}
+                isDetailPage={false} 
               />
             )}
           </div>
@@ -158,6 +159,7 @@ const viewTodoDetails = (itemId) => {
                 todos={todos.filter((todo) => todo.completed)}
                 onToggleComplete={toggleTodoComplete}
                 onViewDetails={viewTodoDetails}
+                isDetailPage={false} 
               />
             )}
           </div>

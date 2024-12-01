@@ -101,6 +101,7 @@ const TodoDetailPage = () => {
           text={todo.name}
           completed={todo.isCompleted}
           onToggleComplete={toggleCompletion}
+          isDetailPage={true}
         />
       </div>
       <div className="container mx-auto p-4">
