@@ -19,7 +19,7 @@ const Home = () => {
   useEffect(() => {
     const loadTodos = async () => {
       try {
-        const items = await fetchTodoItems(tenantId);
+        const items = await fetchTodoItems(tenantId || "");
         const mappedTodos = items.map((item) => ({
           id: item.id,
           text: item.name,
