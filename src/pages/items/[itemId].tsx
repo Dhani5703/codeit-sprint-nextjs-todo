@@ -1,8 +1,10 @@
+// pages/todo/[itemId].tsx
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { fetchTodoItemById, updateTodoItem, deleteTodoItem, uploadImage } from '../../services/todoService';
 import { tenantId } from '../../utils/apiClient';
 import Header from '../../components/Header';
+import TodoItem from '../../components/TodoItem'; // TodoItem 임포트
 
 const TodoDetailPage = () => {
   const [todo, setTodo] = useState<any>(null);  // 초기 상태를 null로 설정
@@ -28,10 +30,10 @@ const TodoDetailPage = () => {
   }, [itemId]);
 
   // 완료 여부 토글
-  const toggleCompletion = async () => {
-    if (!todo) return;  // todo가 없으면 아무 것도 하지 않음
+  const toggleCompletion = async (id: string, isCompleted: boolean) => {
+    if (!todo) return;
     try {
-      const updatedTodo = await updateTodoItem(Number(itemId), { isCompleted: !todo.isCompleted });
+      const updatedTodo = await updateTodoItem(Number(itemId), { isCompleted: !isCompleted });
       setTodo(updatedTodo);
       alert('완료 상태가 업데이트되었습니다.');
     } catch (error) {
@@ -45,7 +47,7 @@ const TodoDetailPage = () => {
     if (!todo) return;
     
     try {
-      const updatedItem = await updateTodoItem(Number(itemId), {memo: editedMemo});
+      const updatedItem = await updateTodoItem(Number(itemId), { memo: editedMemo });
       setTodo(updatedItem);  // 수정된 항목을 todo 상태에 반영
       alert('메모가 수정되었습니다.');
     } catch (error) {
@@ -93,14 +95,13 @@ const TodoDetailPage = () => {
     <div>
       <Header />
       <div>
-        <label>
-          <input
-            type="checkbox"
-            checked={todo.isCompleted}
-            onChange={toggleCompletion}
-          />
-          {todo.name}
-        </label>
+        {/* TodoItem 컴포넌트를 사용하여 해당 항목 렌더링 */}
+        <TodoItem
+          id={todo.id}
+          text={todo.name}
+          completed={todo.isCompleted}
+          onToggleComplete={toggleCompletion}
+        />
       </div>
       <div className="container mx-auto p-4">
         <div className="flex flex-col md:flex-row">

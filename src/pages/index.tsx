@@ -129,8 +129,7 @@ const viewTodoDetails = (itemId) => {
                 <Image 
                 src="/Type=Todo, Size=Large.png" a
                 lt="TODO Empty" 
-                width={150} 
-                height={150} />
+                width={150} height={150} />
                 <p className="text-gray-500 mt-4">할 일이 없어요. TODO를 새롭게 추가해주세요!</p>
               </div>
             ) : (
