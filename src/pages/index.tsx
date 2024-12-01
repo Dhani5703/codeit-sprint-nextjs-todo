@@ -130,7 +130,7 @@ const viewTodoDetails = (itemId) => {
                 src="/Type=Todo, Size=Large.png" a
                 lt="TODO Empty" 
                 width={150} height={150} />
-                <p className="text-gray-500 mt-4">할 일이 없어요. TODO를 새롭게 추가해주세요!</p>
+                <p className="text-state-400 mt-4">할 일이 없어요. TODO를 새롭게 추가해주세요!</p>
               </div>
             ) : (
               <TodoList
@@ -152,7 +152,7 @@ const viewTodoDetails = (itemId) => {
             {todos.filter((todo) => todo.completed).length === 0 ? (
               <div className="flex flex-col items-center justify-center mt-8">
                 <Image src="/Type=Done, Size=Large.png" alt="DONE Empty" width={150} height={150} />
-                <p className="text-gray-500 mt-4">아직 다 한 일이 없어요. 해야 할 일을 체크해보세요!</p>
+                <p className="text-state-400 mt-4">아직 다 한 일이 없어요. 해야 할 일을 체크해보세요!</p>
               </div>
             ) : (
               <TodoList

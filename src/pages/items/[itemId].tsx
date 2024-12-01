@@ -45,7 +45,7 @@ const TodoDetailPage = () => {
   // 상세 페이지에서 메모 항목을 수정하는 부분
   const handleUpdate = async () => {
     if (!todo) return;
-    
+
     try {
       const updatedItem = await updateTodoItem(Number(itemId), { memo: editedMemo });
       setTodo(updatedItem);  // 수정된 항목을 todo 상태에 반영
@@ -91,58 +91,101 @@ const TodoDetailPage = () => {
 
   if (!todo) return <div>Loading...</div>;  // todo가 로드되기 전에 렌더링 하지 않도록 방지
 
+
   return (
     <div>
-      <Header />
-      <div>
-        {/* TodoItem 컴포넌트를 사용하여 해당 항목 렌더링 */}
-        <TodoItem
-          id={todo.id}
-          text={todo.name}
-          completed={todo.isCompleted}
-          onToggleComplete={toggleCompletion}
-          isDetailPage={true}
+  <Header />
+  <div>
+    {/* TodoItem 컴포넌트를 사용하여 해당 항목 렌더링 */}
+    <TodoItem
+      id={todo.id}
+      text={todo.name}
+      completed={todo.isCompleted}
+      onToggleComplete={toggleCompletion}
+      isDetailPage={true}
+    />
+  </div>
+  <div className="container mx-auto p-4">
+    <div className="flex flex-col md:flex-row justify-between">
+      {/* 이미지 업로드 칸 */}
+      <div
+        className="relative w-full md:w-1/3 h-32 bg-[#F1F5F9] flex justify-center items-center mb-4 md:mb-0"
+        style={{
+          position: 'relative',
+          overflow: 'hidden',
+          borderRadius: '8px',  // 둥근 모서리 추가
+        }}
+      >
+        <input
+          type="file"
+          accept="image/*"
+          onChange={handleImageChange}
+          className="absolute inset-0 opacity-0 cursor-pointer"
+        />
+        {todo.imageUrl ? (
+          <img
+            src={todo.imageUrl}
+            alt="Uploaded"
+            className="absolute top-0 left-0 w-full h-full object-cover"
+          />
+        ) : (
+          <img
+            src="/img.png"
+            alt="Upload"
+            className="w-12 h-12 object-contain cursor-pointer"
+          />
+        )}
+      </div>
+
+      {/* 메모 수정 */}
+      <div className="w-full md:w-2/3 ml-0 md:ml-8">
+        <textarea
+          id="memo"
+          value={editedMemo || ''}
+          onChange={handleMemoChange}
+          rows={10}
+          cols={60}
+          placeholder="memo"
+          style={{
+            display: 'block',
+            marginTop: '8px',
+            backgroundImage: 'url(/memo.png)',  // 배경 이미지
+            backgroundSize: 'cover',
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: 'center',
+            paddingLeft: '10px',
+            paddingTop: '10px',
+          }}
+        />
+        <style jsx>{`
+          textarea::placeholder {
+            text-align: center;
+            color: theme('colors.amber');
+            font-weight: bold;
+          }
+        `}</style>
+
+        <img
+          src={`/Edit, Large, ${editedMemo ? 'Active' : 'Default'}.png`}
+          alt="수정완료"
+          className="cursor-pointer mt-4"
+          onClick={handleUpdate}
         />
       </div>
-      <div className="container mx-auto p-4">
-        <div className="flex flex-col md:flex-row">
-          {/* 이미지 업로드 칸 */}
-          <div className="w-full md:w-1/3 mb-4 md:mb-0">
-            <h2 className="text-xl font-semibold mb-4">이미지 업로드</h2>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleImageChange}
-              className="border p-2"
-            />
-            {todo.imageUrl && (
-              <img
-                src={todo.imageUrl}
-                alt="Uploaded"
-                className="mt-4 max-w-full h-auto"
-              />
-            )}
-          </div>
-          <div className="w-full md:w-2/3 ml-0 md:ml-8">
-            <h2 className="text-xl font-semibold mb-4">메모</h2>
-            <textarea
-              id="memo"
-              value={editedMemo || ''}
-              onChange={handleMemoChange}
-              rows={4}
-              cols={40}
-              style={{ display: 'block', marginTop: '8px' }}
-            />
-            <button onClick={handleUpdate} style={{ marginTop: '8px' }}>
-              수정 완료
-            </button>
-          </div>
-        </div>
-        <button onClick={handleDelete} style={{ marginTop: '16px', color: 'red' }}>
-          삭제하기
-        </button>
-      </div>
     </div>
+
+    {/* 수정 및 삭제 버튼 */}
+    <div className="flex justify-between mt-4 md:mt-8">
+      <img
+        src={`/Delete, Large, Default.png`}
+        alt="삭제하기"
+        className="cursor-pointer"
+        onClick={handleDelete}
+      />
+    </div>
+  </div>
+</div>
+
   );
 };
 
