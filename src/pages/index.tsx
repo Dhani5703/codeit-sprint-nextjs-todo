@@ -62,70 +62,93 @@ const Home = () => {
     }
   };
 
-  return (
-    <div className="min-h-screen bg-gray-50 flex flex-col items-center p-6">
-      <Header />
-      <div className="w-full max-w-4xl space-y-6">
-        {/* 입력 필드 */}
-        <div className="flex items-center gap-4">
-          <input
-            type="text"
-            value={newTodo}
-            onChange={(e) => setNewTodo(e.target.value)}
-            onKeyPress={(e) => {
-              if (e.key === "Enter") addTodo();
-            }}
-            placeholder="할 일을 입력하세요"
-            className="w-full px-4 py-2 rounded-lg text-gray-700"
-            style={{
-              backgroundImage: "url('/search.png')", // 저장된 PNG 파일
-              backgroundPosition: "center",
-              backgroundRepeat: "no-repeat",
-              backgroundSize: "cover", // 배경 이미지가 입력창에 맞게 조정
-              color: "#333", // 텍스트 색상
-              height: "60px", // 입력창 높이
-              paddingLeft: "20px", // 텍스트 간격
-              border: "none", // 외곽선 제거
-            }}
-          />
-          <button
-            onClick={addTodo}
-            className="h-12 w-20 md:h-16 md:w-24 bg-center bg-no-repeat bg-contain"
-            style={{
-              backgroundImage: `url('${
-                newTodo.trim()
-                  ? "/Type=Add, Size=Large, State=Active.png"
-                  : "/Type=Add, Size=Large, State=Default.png"
-              }')`,
-              height: "20px", // 버튼 높이
-              width: "70px", // 버튼 너비
-              backgroundSize: "60px", // 배경 이미지 크기
-            }}
-            disabled={!newTodo.trim()} // 입력값 없을 경우 버튼 비활성화
-          ></button>
-        </div>
+// 상세 페이지로 이동
+const viewTodoDetails = (itemId) => {
+  router.push(`/items/${itemId}`); // 상세 페이지로 라우팅
+};
 
+
+  return (
+    <div className="min-h-screen bg-state-100 flex flex-col items-center p-6">
+      <Header className="w-full bg-white shadow-md p-4"/>
+      <div className="w-full max-w-4xl space-y-6">
+    {/* 입력 필드 */}
+    <div className="flex items-center gap-4">
+      <input
+        type="text"
+        value={newTodo}
+        onChange={(e) => setNewTodo(e.target.value)}
+        onKeyPress={(e) => {
+          if (e.key === "Enter") addTodo();
+        }}
+        placeholder="할 일을 입력하세요"
+        className="text-gray-700"
+        style={{
+          backgroundImage: "url('/search.png')", // 저장된 PNG 파일
+          backgroundPosition: "center", // 배경 이미지가 중앙에 위치하도록 설정
+          backgroundRepeat: "no-repeat", // 배경 이미지가 반복되지 않도록 설정
+          backgroundSize: "contain", // 이미지 비율 유지하며 크기에 맞게 조정
+          color: "#333", // 텍스트 색상
+          height: "40px", // 이미지 크기에 맞춘 높이
+          paddingLeft: "40px", // 이미지 크기와 일치하는 간격
+          width: "600px", // 이미지 크기에 맞는 너비 설정 (원하는 크기에 맞게 조정)
+          border: "none", // 외곽선 제거
+        }}
+      />
+    <button
+      onClick={addTodo}
+      className="bg-center bg-no-repeat bg-contain"
+      style={{
+        backgroundImage: `url('${
+          newTodo.trim()
+            ? "/Type=Add, Size=Large, State=Active.png"
+            : "/Type=Add, Size=Large, State=Default.png"
+        }')`,
+        backgroundPosition: "center", // 배경 이미지가 중앙에 위치하도록 설정
+        backgroundRepeat: "no-repeat", // 배경 이미지가 반복되지 않도록
+        backgroundSize: "contain", // 이미지 크기
+        height: "40px", // 버튼 높이를 입력창 높이에 맞게 조정
+        width: "100px", // 버튼 너비
+        padding: "15px",
+        border: "none", // 외곽선 제거
+      }}
+      disabled={!newTodo.trim()}
+    ></button>
+  </div>
         {/* TODO & DONE 리스트 */}
         <div className="flex gap-8">
           {/* TODO 섹션 */}
           <div className="flex-1 bg-white rounded-lg shadow-md p-6">
-            <h2 className="text-xl font-semibold text-green-500">TO DO</h2>
+            <div>
+              <img
+                src={"/todo.png"} alt="TODO"
+              />
+            </div>
             {todos.filter((todo) => !todo.completed).length === 0 ? (
               <div className="flex flex-col items-center justify-center mt-8">
-                <Image src="/Type=Todo, Size=Large.png" alt="TODO Empty" width={150} height={150} />
+                <Image 
+                src="/Type=Todo, Size=Large.png" a
+                lt="TODO Empty" 
+                width={150} 
+                height={150} />
                 <p className="text-gray-500 mt-4">할 일이 없어요. TODO를 새롭게 추가해주세요!</p>
               </div>
             ) : (
               <TodoList
                 todos={todos.filter((todo) => !todo.completed)}
                 onToggleComplete={toggleTodoComplete}
+                onViewDetails={viewTodoDetails}
               />
             )}
           </div>
 
           {/* DONE 섹션 */}
           <div className="flex-1 bg-white rounded-lg shadow-md p-6">
-            <h2 className="text-xl font-semibold text-green-700">DONE</h2>
+            <div>
+              <img
+                src={"/done.png"}
+              />
+            </div>
             {todos.filter((todo) => todo.completed).length === 0 ? (
               <div className="flex flex-col items-center justify-center mt-8">
                 <Image src="/Type=Done, Size=Large.png" alt="DONE Empty" width={150} height={150} />
@@ -135,6 +158,7 @@ const Home = () => {
               <TodoList
                 todos={todos.filter((todo) => todo.completed)}
                 onToggleComplete={toggleTodoComplete}
+                onViewDetails={viewTodoDetails}
               />
             )}
           </div>

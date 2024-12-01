@@ -9,19 +9,13 @@
 }
 
 .todo-item {
-  display: flex;
   align-items: center;
   gap: 10px;
 }
 
 button {
   padding: 10px;
-  background-color: #4CAF50;
   color: white;
   border: none;
   cursor: pointer;
-}
-
-button:hover {
-  background-color: #45a049;
 }
