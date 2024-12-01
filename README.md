@@ -23,15 +23,15 @@
 ```bash
    git clone https://github.com/your-username/todo-app.git
    cd todo-app
-   ```
+```
 2. 의존성 설치:
 ```bash
     yarn install
-    ```
+```
 3. 개발 서버 시작:
 ```bash
-    yarn dev```
-
+    yarn dev
+```
 4. 브라우저에서 아래 주소로 접속:
     http://localhost:3000
 
