@@ -1,19 +1,18 @@
-// pages/index.tsx
-import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
-import Header from '../components/Header';
-import TodoList from '../components/TodoList'; // TodoList 컴포넌트 임포트
+import React, { useEffect, useState } from "react";
+import Image from "next/image";
+import { useRouter } from "next/router";
+import Header from "../components/Header";
+import TodoList from "../components/TodoList";
 import {
   fetchTodoItems,
   createTodoItem,
-  updateTodoItem
-} from '../services/todoService';
-
-import { tenantId } from '../utils/apiClient';
+  updateTodoItem,
+} from "../services/todoService";
+import { tenantId } from "../utils/apiClient";
 
 const Home = () => {
   const [todos, setTodos] = useState([]);
-  const [newTodo, setNewTodo] = useState('');
+  const [newTodo, setNewTodo] = useState("");
   const router = useRouter();
 
   // 초기 데이터 로드
@@ -28,7 +27,7 @@ const Home = () => {
         }));
         setTodos(mappedTodos);
       } catch (error) {
-        console.error('Failed to fetch todos:', error);
+        console.error("Failed to fetch todos:", error);
       }
     };
     loadTodos();
@@ -43,9 +42,9 @@ const Home = () => {
         ...prevTodos,
         { id: createdTodo.id, text: createdTodo.name, completed: createdTodo.isCompleted },
       ]);
-      setNewTodo('');
+      setNewTodo("");
     } catch (error) {
-      console.error('Failed to create todo item:', error);
+      console.error("Failed to create todo item:", error);
     }
   };
 
@@ -59,52 +58,85 @@ const Home = () => {
         )
       );
     } catch (error) {
-      console.error('Failed to update todo item:', error);
+      console.error("Failed to update todo item:", error);
     }
   };
 
-  // 상세 페이지로 이동
-  const viewTodoDetails = (itemId: string) => {
-    router.push(`/items/${itemId}`); // 상세 페이지로 라우팅
-  };
-
   return (
-    <div>
+    <div className="min-h-screen bg-gray-50 flex flex-col items-center p-6">
       <Header />
-      <div className="todo-container">
-        <input
-          type="text"
-          value={newTodo}
-          onChange={(e) => setNewTodo(e.target.value)}
-          onKeyPress={(e) => {
-            if (e.key === 'Enter') addTodo();
-          }}
-          placeholder="할 일을 입력하세요"
-          className="border p-2 mb-4"
-        />
-        <button onClick={addTodo} className="bg-blue-500 text-white p-2 mb-4">
-          추가하기
-        </button>
+      <div className="w-full max-w-4xl space-y-6">
+        {/* 입력 필드 */}
+        <div className="flex items-center gap-4">
+          <input
+            type="text"
+            value={newTodo}
+            onChange={(e) => setNewTodo(e.target.value)}
+            onKeyPress={(e) => {
+              if (e.key === "Enter") addTodo();
+            }}
+            placeholder="할 일을 입력하세요"
+            className="w-full px-4 py-2 rounded-lg text-gray-700"
+            style={{
+              backgroundImage: "url('/search.png')", // 저장된 PNG 파일
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+              backgroundSize: "cover", // 배경 이미지가 입력창에 맞게 조정
+              color: "#333", // 텍스트 색상
+              height: "60px", // 입력창 높이
+              paddingLeft: "20px", // 텍스트 간격
+              border: "none", // 외곽선 제거
+            }}
+          />
+          <button
+            onClick={addTodo}
+            className="h-12 w-20 md:h-16 md:w-24 bg-center bg-no-repeat bg-contain"
+            style={{
+              backgroundImage: `url('${
+                newTodo.trim()
+                  ? "/Type=Add, Size=Large, State=Active.png"
+                  : "/Type=Add, Size=Large, State=Default.png"
+              }')`,
+              height: "20px", // 버튼 높이
+              width: "70px", // 버튼 너비
+              backgroundSize: "60px", // 배경 이미지 크기
+            }}
+            disabled={!newTodo.trim()} // 입력값 없을 경우 버튼 비활성화
+          ></button>
+        </div>
 
-        <div className="flex flex-col md:flex-row md:space-x-8">
-          {/* 진행 중인 할 일 */}
-          <div className="todo-list w-full md:w-1/2">
-            <h2 className="text-xl font-semibold mb-4"> TODO </h2>
-            <TodoList
-              todos={todos.filter(todo => !todo.completed)} // 진행 중인 할 일 필터링
-              onToggleComplete={toggleTodoComplete}
-              onViewDetails={viewTodoDetails} // 상세보기 콜백 전달
-            />
+        {/* TODO & DONE 리스트 */}
+        <div className="flex gap-8">
+          {/* TODO 섹션 */}
+          <div className="flex-1 bg-white rounded-lg shadow-md p-6">
+            <h2 className="text-xl font-semibold text-green-500">TO DO</h2>
+            {todos.filter((todo) => !todo.completed).length === 0 ? (
+              <div className="flex flex-col items-center justify-center mt-8">
+                <Image src="/Type=Todo, Size=Large.png" alt="TODO Empty" width={150} height={150} />
+                <p className="text-gray-500 mt-4">할 일이 없어요. TODO를 새롭게 추가해주세요!</p>
+              </div>
+            ) : (
+              <TodoList
+                todos={todos.filter((todo) => !todo.completed)}
+                onToggleComplete={toggleTodoComplete}
+              />
+            )}
           </div>
 
-          {/* 완료된 할 일 */}
-          <div className="todo-list w-full md:w-1/2 mt-8 md:mt-0">
-            <h2 className="text-xl font-semibold mb-4"> DONE </h2>
-            <TodoList
-              todos={todos.filter(todo => todo.completed)} // 완료된 할 일 필터링
-              onToggleComplete={toggleTodoComplete}
-              onViewDetails={viewTodoDetails} // 상세보기 콜백 전달
-            />
+          {/* DONE 섹션 */}
+          <div className="flex-1 bg-white rounded-lg shadow-md p-6">
+            <h2 className="text-xl font-semibold text-green-700">DONE</h2>
+            {todos.filter((todo) => todo.completed).length === 0 ? (
+              <div className="flex flex-col items-center justify-center mt-8">
+                <Image src="/Type=Done, Size=Large.png" alt="DONE Empty" width={150} height={150} />
+                <p className="text-gray-500 mt-4">아직 다 한 일이 없어요. 해야 할 일을 체크해보세요!</p>
+              </div>
+            ) : (
+              <TodoList
+                todos={todos.filter((todo) => todo.completed)}
+                onToggleComplete={toggleTodoComplete}
+              />
+            )}
           </div>
         </div>
       </div>

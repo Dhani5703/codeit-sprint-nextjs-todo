@@ -15,9 +15,9 @@ interface TodoListProps {
 
 const TodoList: React.FC<TodoListProps> = ({ todos, onToggleComplete, onViewDetails }) => {
   return (
-    <ul className="todo-list">
+    <div className="todo-list">
       {todos.map((todo) => (
-        <li key={todo.id} className="todo-item flex justify-between items-center mb-2 p-2 border-b">
+        <p key={todo.id} className="todo-item flex justify-between items-center mb-2 p-2 border-b">
           <input
             type="checkbox"
             checked={todo.completed} // 완료된 상태일 경우 체크 표시
@@ -30,9 +30,9 @@ const TodoList: React.FC<TodoListProps> = ({ todos, onToggleComplete, onViewDeta
           >
             {todo.text}
           </span>
-        </li>
+        </p>
       ))}
-    </ul>
+    </div>
   );
 };
 
