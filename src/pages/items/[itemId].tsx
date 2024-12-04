@@ -139,12 +139,16 @@ const TodoDetailPage = () => {
               <Image
                 src="todo.imageUrl"
                 alt="Uploaded"
+                width={200}
+                height={200}
                 className="absolute top-0 left-0 w-full h-full object-cover"
               />
             ) : (
               <Image
                 src="/img.png"
                 alt="Upload"
+                width={150}
+                height={150}
                 className="w-12 h-12 object-contain cursor-pointer"
               />
             )}
@@ -170,22 +174,24 @@ const TodoDetailPage = () => {
                 paddingTop: "10px",
               }}
             />
-            <Image
-              src={`/Edit, Large, ${editedMemo ? "Active" : "Default"}.png`}
-              alt="수정완료"
-              className="cursor-pointer mt-4"
-              width={32} // 이미지의 가로 크기
-              height={32} // 이미지의 세로 크기
-              onClick={handleUpdate}
-            />
           </div>
         </div>
 
         {/* 수정 및 삭제 버튼 */}
         <div className="flex justify-between mt-4 md:mt-8">
           <Image
+            src={`/Edit, Large, ${editedMemo ? "Active" : "Default"}.png`}
+            alt="수정완료"
+            className="cursor-pointer mt-4"
+            width={168}
+            height={56}
+            onClick={handleUpdate}
+          />
+          <Image
             src="/Delete, Large, Default.png"
             alt="delete"
+            width={168}
+            height={56}
             className="cursor-pointer"
             onClick={handleDelete}
           />

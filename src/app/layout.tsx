@@ -3,15 +3,17 @@ import React from 'react';
 import localFont from 'next/font/local';
 import './globals.css';
 
-const geistSans = localFont({
-  src: './fonts/GeistVF.woff',
-  variable: '--font-geist-sans',
+// NanumSquareR 폰트 설정
+const nanumSquareR = localFont({
+  src: './fonts/NanumSquareR.otf', // 저장한 폰트 경로
+  variable: '--font-nanum-square-r',
   weight: '100 900',
 });
-const geistMono = localFont({
-  src: './fonts/GeistMonoVF.woff',
-  variable: '--font-geist-mono',
-  weight: '100 900',
+
+const nanumSquareB = localFont({
+  src: './fonts/NanumSquareB.otf', // 저장한 폰트 경로
+  variable: '--font-nanum-square-b',
+  weight: '100 900', // 필요에 따라 조정
 });
 
 export default function RootLayout({
@@ -22,7 +24,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${nanumSquareR.variable} ${nanumSquareB.variable} antialiased`}
       >
         {children}
       </body>

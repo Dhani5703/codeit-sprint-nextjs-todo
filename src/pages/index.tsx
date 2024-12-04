@@ -132,7 +132,7 @@ const Home = () => {
           {/* TODO 섹션 */}
           <div className="flex-1 bg-white rounded-lg shadow-md p-6">
             <div>
-              <Image src="/todo.png" alt="TODO" />
+              <Image src="/todo.png" alt="TODO" width={100} height={36} />
             </div>
             {todos.filter((todo) => !todo.completed).length === 0 ? (
               <div className="flex flex-col items-center justify-center mt-8">
@@ -158,7 +158,7 @@ const Home = () => {
           {/* DONE 섹션 */}
           <div className="flex-1 bg-white rounded-lg shadow-md p-6">
             <div>
-              <Image src="/done.png" alt="done" />
+              <Image src="/done.png" alt="done" width={100} height={36} />
             </div>
             {todos.filter((todo) => todo.completed).length === 0 ? (
               <div className="flex flex-col items-center justify-center mt-8">
