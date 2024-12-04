@@ -58,7 +58,7 @@ export const fetchTodoItemById = async (tenantId: string, itemId: number) => {
   */
  export const updateTodoItem = async (
   itemId: number,  // itemId는 숫자여야 합니다.
-  updatedData: { isCompleted: boolean, memo: string, name: string, imageUrl: string }
+  updatedData: { isCompleted?: boolean, memo?: string, name?: string, imageUrl?: string }
 ) => {
   try {
     const response = await apiClient.patch(`/${tenantId}/items/${itemId}`, updatedData);

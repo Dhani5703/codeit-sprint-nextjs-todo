@@ -1,17 +1,12 @@
-// components/TodoList.tsx
 import React from 'react';
 import TodoItem from './TodoItem'; // TodoItem 컴포넌트 임포트
+import { Todo } from '../types/types';
 
-interface Todo {
-  id: string;
-  text: string;
-  completed: boolean;
-}
 
 interface TodoListProps {
   todos: Todo[];
-  onToggleComplete: (id: string, isCompleted: boolean) => void;
-  onViewDetails: (id: string) => void;
+  onToggleComplete: (id: number, isCompleted: boolean) => void;
+  onViewDetails: (id: number) => void;
 }
 
 const TodoList: React.FC<TodoListProps> = ({ todos, onToggleComplete, onViewDetails }) => {
@@ -21,7 +16,7 @@ const TodoList: React.FC<TodoListProps> = ({ todos, onToggleComplete, onViewDeta
         <div key={todo.id} className="mb-4"> {/* 각 항목에 간격 추가 */}
           <TodoItem
             id={todo.id}
-            text={todo.text}
+            name={todo.name}
             completed={todo.completed}
             onToggleComplete={onToggleComplete}
             onViewDetails={onViewDetails}

@@ -9,6 +9,7 @@ import {
   updateTodoItem,
 } from "../services/todoService";
 import { tenantId } from "../utils/apiClient";
+import { Todo } from '../types/types';
 
 const safeTenantId = tenantId as string;
 
@@ -16,12 +17,6 @@ interface TodoItem {
   id: number;
   name: string;
   isCompleted: boolean;
-}
-
-interface Todo {
-  id: number;
-  text: string;
-  completed: boolean;
 }
 
 const Home = () => {
@@ -36,7 +31,7 @@ const Home = () => {
         const items = await fetchTodoItems(safeTenantId  || "");
         const mappedTodos = items.map((item: TodoItem) => ({
           id: item.id,
-          text: item.name,
+          name: item.name,
           completed: item.isCompleted,
         }));
         setTodos(mappedTodos);
@@ -54,7 +49,7 @@ const Home = () => {
       const createdTodo = await createTodoItem(safeTenantId , { name: newTodo });
       setTodos((prevTodos) => [
         ...prevTodos,
-        { id: createdTodo.id, text: createdTodo.name, completed: createdTodo.isCompleted },
+        { id: createdTodo.id, name: createdTodo.name, completed: createdTodo.isCompleted },
       ]);
       setNewTodo("");
     } catch (error) {
@@ -63,17 +58,14 @@ const Home = () => {
   };
 
   // 완료 상태 토글
-  const toggleTodoComplete = async (itemId: string, isCompleted: boolean) => {
+  const toggleTodoComplete = async (itemId: number, isCompleted: boolean) => {
     try {
-      const updatedTodo = await updateTodoItem(Number(itemId), { 
-        isCompleted: !isCompleted
-      ,memo: todo.memo,       // 기존 memo 값
-      name: todo.name,       // 기존 name 값
-      imageUrl: todo.imageUrl, // 기존 imageUrl 값
+      const updatedTodo = await updateTodoItem(Number(itemId), {
+        isCompleted: !isCompleted,
       });
       setTodos((prevTodos) =>
         prevTodos.map((todo) =>
-          todo.id === itemId ? { ...todo, completed: updatedTodo.isCompleted } : todo
+          todo.id === Number(itemId) ? { ...todo, completed: updatedTodo.isCompleted } : todo
         )
       );
     } catch (error) {
@@ -89,7 +81,7 @@ const viewTodoDetails = (itemId) => {
 
   return (
     <div className="min-h-screen bg-state-100 flex flex-col items-center p-6">
-      <Header className="w-full bg-white shadow-md p-4"/>
+      <Header/>
       <div className="w-full max-w-4xl space-y-6">
     {/* 입력 필드 */}
     <div className="flex items-center gap-4">
@@ -97,7 +89,7 @@ const viewTodoDetails = (itemId) => {
         type="text"
         value={newTodo}
         onChange={(e) => setNewTodo(e.target.value)}
-        onKeyPress={(e) => {
+        onKeyDown={(e) => {
           if (e.key === "Enter") addTodo();
         }}
         placeholder="할 일을 입력하세요"
@@ -146,17 +138,16 @@ const viewTodoDetails = (itemId) => {
             {todos.filter((todo) => !todo.completed).length === 0 ? (
               <div className="flex flex-col items-center justify-center mt-8">
                 <Image 
-                src="/Type=Todo, Size=Large.png" a
-                lt="TODO Empty" 
+                src="/Type=Todo, Size=Large.png"
+                alt="TODO Empty" 
                 width={150} height={150} />
-                <p className="text-state-400 mt-4">할 일이 없어요. TODO를 새롭게 추가해주세요!</p>
+                <p className="text-gray-700">할 일이 없어요. TODO를 새롭게 추가해주세요!</p>
               </div>
             ) : (
               <TodoList
                 todos={todos.filter((todo) => !todo.completed)}
                 onToggleComplete={toggleTodoComplete}
                 onViewDetails={viewTodoDetails}
-                isDetailPage={false} 
               />
             )}
           </div>
@@ -178,7 +169,6 @@ const viewTodoDetails = (itemId) => {
                 todos={todos.filter((todo) => todo.completed)}
                 onToggleComplete={toggleTodoComplete}
                 onViewDetails={viewTodoDetails}
-                isDetailPage={false} 
               />
             )}
           </div>

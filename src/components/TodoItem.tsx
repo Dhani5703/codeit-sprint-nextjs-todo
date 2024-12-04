@@ -1,20 +1,32 @@
-// components/TodoItem.tsx
 import React from 'react';
 
-interface TodoItemProps {
-  id: string;
-  text: string;
+
+export interface TodoItem {
+  id: number;
+  name: string;
+  isCompleted: boolean;
+  memo?: string;
+  imageUrl?: string;
+};
+
+export interface TodoItemProps {
+  id: number;
+  name: string;
   completed: boolean;
-  onToggleComplete: (id: string, isCompleted: boolean) => void;
-  onViewDetails?: (id: string) => void;
+  onToggleComplete: (id: number, isCompleted: boolean) => void;
+  onViewDetails?: (id: number) => void;
   isDetailPage?: boolean;
-}
+};
 
-const TodoItem: React.FC<TodoItemProps> = ({ id, text, completed, onToggleComplete, onViewDetails, isDetailPage = false }) => {
-  const toggleCompletion = () => {
-    onToggleComplete(id, completed);
-  };
 
+
+const TodoItem: React.FC<TodoItemProps> = ({ 
+  id, 
+  name, 
+  completed, 
+  onToggleComplete, 
+  onViewDetails, 
+  isDetailPage = false }) => {
   return (
     <div
       className="todo-item flex items-center gap-2 p-2 mb-2 border-b"
@@ -41,12 +53,12 @@ const TodoItem: React.FC<TodoItemProps> = ({ id, text, completed, onToggleComple
       {/* 텍스트 부분, isDetailPage가 false일 때만 onClick을 활성화 */}
       <span
         onClick={isDetailPage ? undefined : () => onViewDetails?.(id)} // 상세 페이지에서는 클릭 안됨
-        className={`flex-1 ${completed ? 'line-through text-gray-400' : ''} cursor-pointer`} // 완료 상태에 따라 스타일 변경
+        className={`flex-1 ${completed ? 'text-gray-400' : ''} cursor-pointer`} // 완료 상태에 따라 스타일 변경
         style={{
           pointerEvents: isDetailPage ? 'none' : 'auto', // 클릭 비활성화
         }}
       >
-        {text}
+        {name}
       </span>
     </div>
   );

@@ -21,6 +21,7 @@ const TodoDetailPage = () => {
         const todoDetails = await fetchTodoItemById(tenantId, Number(itemId));
         setTodo(todoDetails);
         setEditedMemo(todoDetails.memo);
+        console.log(todoDetails);
       } catch (error) {
         console.error('Failed to fetch todo item details:', error);
       }
@@ -30,7 +31,7 @@ const TodoDetailPage = () => {
   }, [itemId]);
 
   // 완료 여부 토글
-  const toggleCompletion = async (id: string, isCompleted: boolean) => {
+  const toggleCompletion = async (id: number, isCompleted: boolean) => {
     if (!todo) return;
     try {
       const updatedTodo = await updateTodoItem(Number(itemId), { isCompleted: !isCompleted });
@@ -99,7 +100,7 @@ const TodoDetailPage = () => {
     {/* TodoItem 컴포넌트를 사용하여 해당 항목 렌더링 */}
     <TodoItem
       id={todo.id}
-      text={todo.name}
+      name={todo.name}
       completed={todo.isCompleted}
       onToggleComplete={toggleCompletion}
       isDetailPage={true}
