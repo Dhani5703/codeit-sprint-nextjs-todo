@@ -64,8 +64,12 @@ export const fetchTodoItemById = async (tenantId: string, itemId: number) => {
     const response = await apiClient.patch(`/${tenantId}/items/${itemId}`, updatedData);
     return response.data;
   } catch (error) {
-    console.error("Error updating todo item:", error.response?.data || error.message);
-    throw error;  // 오류를 호출자에게 전달
+    if (error instanceof Error) {
+      console.error("Error updating todo item:", error.message);
+    } else {
+      console.error("Unexpected error:", error);
+    }
+    throw error; // 오류를 호출자에게 전달
   }
 };
 
@@ -84,20 +88,21 @@ export const deleteTodoItem = async (
  * 이미지 업로드 API
  * @param file - 업로드할 이미지 파일
  */
-export const uploadImage = async (file: File): Promise<string> => {
+export const uploadImage = async (file: File): Promise<string | undefined> => {
   const formData = new FormData();
-  formData.append('file', file);  // 'file' 필드에 실제 이미지 파일 추가
+  formData.append('file', file);
 
   try {
-    // axios로 이미지 파일을 업로드
     const response = await apiClient.post(`/${tenantId}/images/upload`, formData);
 
     if (response.status === 200) {
-      return response.data.url;  // 성공적으로 URL을 반환
+      return response.data.url; // 성공적으로 URL을 반환
     } else {
       throw new Error(`Failed to upload image. Server responded with status ${response.status}`);
     }
   } catch (error: any) {
-    console.error('Error uploading image:', error.response.data);  // 서버 오류 메시지
-  };
+    console.error('Error uploading image:', error.response?.data || error.message); // 서버 오류 메시지 또는 일반 메시지
+    return undefined; // 실패한 경우 undefined 반환
+  }
 };
+
