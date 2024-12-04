@@ -1,4 +1,5 @@
 import React from "react";
+import Image from 'next/image';
 
 export interface TodoItem {
   id: number;
@@ -39,14 +40,16 @@ const TodoItem: React.FC<TodoItemProps> = ({
         marginBottom: "16px",
       }}
     >
-      <img
+      <Image
         src={`/Property 1=${completed ? "Done" : "Todo"}.png`} // 완료 상태에 따라 다른 이미지
         alt={completed ? "Done" : "Todo"}
         onClick={() => onToggleComplete(id, completed)} // 이미지 클릭 시 완료 상태 변경
         className="cursor-pointer w-6 h-6" // 이미지 크기 설정
         style={{
-          padding: "10px",
+          padding: "10px", // padding은 style로 적용
         }}
+        width={24} // w-6의 크기를 반영하여 24px로 설정
+        height={24} // h-6의 크기를 반영하여 24px로 설정
       />
       {/* 텍스트 부분, isDetailPage가 false일 때만 onClick을 활성화 */}
       <span

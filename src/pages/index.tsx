@@ -132,7 +132,7 @@ const Home = () => {
           {/* TODO 섹션 */}
           <div className="flex-1 bg-white rounded-lg shadow-md p-6">
             <div>
-              <img src={"/todo.png"} alt="TODO" />
+              <Image src="/todo.png" alt="TODO" />
             </div>
             {todos.filter((todo) => !todo.completed).length === 0 ? (
               <div className="flex flex-col items-center justify-center mt-8">
@@ -158,7 +158,7 @@ const Home = () => {
           {/* DONE 섹션 */}
           <div className="flex-1 bg-white rounded-lg shadow-md p-6">
             <div>
-              <img src={"/done.png"} />
+              <Image src="/done.png" alt="done" />
             </div>
             {todos.filter((todo) => todo.completed).length === 0 ? (
               <div className="flex flex-col items-center justify-center mt-8">
@@ -168,7 +168,7 @@ const Home = () => {
                   width={150}
                   height={150}
                 />
-                <p className="text-state-400 mt-4">
+                <p className="text-gray-700 mt-4">
                   아직 다 한 일이 없어요. 해야 할 일을 체크해보세요!
                 </p>
               </div>

@@ -1,6 +1,7 @@
 // pages/todo/[itemId].tsx
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import Image from 'next/image';
 import {
   fetchTodoItemById,
   updateTodoItem,
@@ -135,13 +136,13 @@ const TodoDetailPage = () => {
               className="absolute inset-0 opacity-0 cursor-pointer"
             />
             {todo.imageUrl ? (
-              <img
-                src={todo.imageUrl}
+              <Image
+                src="todo.imageUrl"
                 alt="Uploaded"
                 className="absolute top-0 left-0 w-full h-full object-cover"
               />
             ) : (
-              <img
+              <Image
                 src="/img.png"
                 alt="Upload"
                 className="w-12 h-12 object-contain cursor-pointer"
@@ -169,18 +170,12 @@ const TodoDetailPage = () => {
                 paddingTop: "10px",
               }}
             />
-            <style jsx>{`
-              textarea::placeholder {
-                text-align: center;
-                color: theme("colors.amber");
-                font-weight: bold;
-              }
-            `}</style>
-
-            <img
+            <Image
               src={`/Edit, Large, ${editedMemo ? "Active" : "Default"}.png`}
               alt="수정완료"
               className="cursor-pointer mt-4"
+              width={32} // 이미지의 가로 크기
+              height={32} // 이미지의 세로 크기
               onClick={handleUpdate}
             />
           </div>
@@ -188,9 +183,9 @@ const TodoDetailPage = () => {
 
         {/* 수정 및 삭제 버튼 */}
         <div className="flex justify-between mt-4 md:mt-8">
-          <img
-            src={`/Delete, Large, Default.png`}
-            alt="삭제하기"
+          <Image
+            src="/Delete, Large, Default.png"
+            alt="delete"
             className="cursor-pointer"
             onClick={handleDelete}
           />
