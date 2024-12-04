@@ -10,14 +10,13 @@ import {
 } from "../services/todoService";
 import { tenantId } from "../utils/apiClient";
 import { Todo } from '../types/types';
+import { TodoItem } from "@/components/TodoItem";
+import '../app/globals.css';
+
+
 
 const safeTenantId = tenantId as string;
 
-interface TodoItem {
-  id: number;
-  name: string;
-  isCompleted: boolean;
-}
 
 const Home = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
