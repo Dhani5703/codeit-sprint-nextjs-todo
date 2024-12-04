@@ -1,9 +1,9 @@
-import React from 'react';
+import React from "react";
 
 const Header = () => {
   return (
-    <header 
-      className="header bg-state-100" 
+    <header
+      className="header bg-state-100"
       style={{
         width: "100%", // 화면 전체 너비
         height: "40px", // 헤더 높이
@@ -12,7 +12,7 @@ const Header = () => {
         alignItems: "center", // 버튼을 세로 중앙 정렬
       }}
     >
-      <button 
+      <button
         onClick={() => window.location.reload()}
         style={{
           backgroundImage: "url('/Size=Large.png')",
@@ -24,8 +24,7 @@ const Header = () => {
           marginLeft: "20%", // 왼쪽 여백 추가
           backgroundColor: "transparent", // 버튼 배경색 제거
         }}
-      >
-      </button>
+      ></button>
     </header>
   );
 };

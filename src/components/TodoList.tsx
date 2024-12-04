@@ -1,7 +1,6 @@
-import React from 'react';
-import TodoItem from './TodoItem'; // TodoItem 컴포넌트 임포트
-import { Todo } from '../types/types';
-
+import React from "react";
+import TodoItem from "./TodoItem"; // TodoItem 컴포넌트 임포트
+import { Todo } from "../types/types";
 
 interface TodoListProps {
   todos: Todo[];
@@ -9,11 +8,17 @@ interface TodoListProps {
   onViewDetails: (id: number) => void;
 }
 
-const TodoList: React.FC<TodoListProps> = ({ todos, onToggleComplete, onViewDetails }) => {
+const TodoList: React.FC<TodoListProps> = ({
+  todos,
+  onToggleComplete,
+  onViewDetails,
+}) => {
   return (
     <div className="todo-list p-4">
       {todos.map((todo) => (
-        <div key={todo.id} className="mb-4"> {/* 각 항목에 간격 추가 */}
+        <div key={todo.id} className="mb-4">
+          {" "}
+          {/* 각 항목에 간격 추가 */}
           <TodoItem
             id={todo.id}
             name={todo.name}
