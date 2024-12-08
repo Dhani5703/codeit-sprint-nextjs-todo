@@ -30,30 +30,31 @@ const TodoItem: React.FC<TodoItemProps> = ({
     <div
       className="todo-item flex items-center p-2 mb-2 border-b"
       style={{
-        backgroundImage: `url('/Property 1=${completed ? "Variant2" : "Default"}.png')`, // 완료 상태에 따라 배경 이미지 변경
+        backgroundImage: `url('/Property 1=${completed ? "Variant2" : "Default"}.png')`,
         backgroundRepeat: "no-repeat",
-        backgroundSize: "100% auto",
-        // height: "45px",
-        // display: "flex",
-        // alignItems: "center",
+        backgroundSize: "contain", // 상세 페이지에서 배경 이미지 크기 고정
+        backgroundPosition: "center", 
+        padding: "8px",
+        display: "flex",
+        justifyContent: "space-between", // 텍스트와 이미지 간격을 맞추기
+        alignItems: "center", // 텍스트와 이미지를 수직 정렬
       }}
     >
       <Image
-        src={`/Property 1=${completed ? "Done" : "Todo"}.png`} // 완료 상태에 따라 다른 이미지
+        src={`/Property 1=${completed ? "Done" : "Todo"}.png`}
         alt={completed ? "Done" : "Todo"}
-        onClick={() => onToggleComplete(id, completed)} // 이미지 클릭 시 완료 상태 변경
-        className="cursor-pointer w-6 h-6" // 이미지 크기 설정
+        onClick={() => onToggleComplete(id, completed)}
+        className="cursor-pointer w-6 h-6"
         width={32}
         height={32}
       />
-      {/* 텍스트 부분, isDetailPage가 false일 때만 onClick을 활성화 */}
       <span
-        onClick={isDetailPage ? undefined : () => onViewDetails?.(id)} // 상세 페이지에서는 클릭 안됨
-        className={`flex-1 ${completed ? "text-gray-400" : ""} cursor-pointer`} // 완료 상태에 따라 스타일 변경
+        onClick={isDetailPage ? undefined : () => onViewDetails?.(id)}
+        className={`flex-1 ${completed ? "text-gray-400" : ""} cursor-pointer`}
         style={{
-          pointerEvents: isDetailPage ? "none" : "auto", // 클릭 비활성화
-          whiteSpace: "nowrap", // 텍스트 줄바꿈 방지
-          overflow: "hidden", // 넘치는 텍스트 숨김
+          pointerEvents: isDetailPage ? "none" : "auto",
+          whiteSpace: "nowrap",
+          overflow: "hidden",
         }}
       >
         {name}
@@ -61,5 +62,6 @@ const TodoItem: React.FC<TodoItemProps> = ({
     </div>
   );
 };
+
 
 export default TodoItem;

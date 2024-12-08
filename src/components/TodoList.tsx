@@ -18,7 +18,6 @@ const TodoList: React.FC<TodoListProps> = ({
       {todos.map((todo) => (
         <div key={todo.id} className="mb-4">
           {" "}
-          {/* 각 항목에 간격 추가 */}
           <TodoItem
             id={todo.id}
             name={todo.name}

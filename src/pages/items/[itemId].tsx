@@ -110,14 +110,16 @@ const TodoDetailPage = () => {
     <div className="min-h-screen bg-state-100 flex flex-col items-center">
       <Header />
       <div className="bg-white p-6 flex-1 w-full max-w-4xl space-y-6 mx-auto">
-      <div className="flex justify-center">
-        <TodoItem
-          id={todo.id}
-          name={todo.name}
-          completed={todo.isCompleted}
-          onToggleComplete={toggleCompletion}
-          isDetailPage={true}
-        />
+        <div className="flex justify-center w-full">
+        <div className="w-2/5">
+          <TodoItem
+            id={todo.id}
+            name={todo.name}
+            completed={todo.isCompleted}
+            onToggleComplete={toggleCompletion}
+            isDetailPage={true}
+          />
+        </div>
         </div>
         <div className="flex flex-col md:flex-row justify-between">
           {/* 이미지 업로드 칸 */}
