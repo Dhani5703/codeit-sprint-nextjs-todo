@@ -99,8 +99,8 @@ const Home = () => {
               backgroundImage: "url('/search.png')",
               backgroundPosition: "center",
               backgroundRepeat: "no-repeat",
-              backgroundSize: "100% 100%", 
-              height: "56px"
+              backgroundSize: "100% 100%",
+              height: "56px",
             }}
           />
           <button
@@ -116,7 +116,7 @@ const Home = () => {
             disabled={!newTodo.trim()}
           ></button>
         </div>
-  
+
         {/* TODO & DONE 리스트 */}
         <div className="flex flex-col sm:flex-row items-stretch justify-center gap-6">
           {/* TODO 섹션 */}
@@ -144,7 +144,7 @@ const Home = () => {
               />
             )}
           </div>
-  
+
           {/* DONE 섹션 */}
           <div className="flex-1 rounded-lg shadow-md p-6 flex flex-col">
             <div className="flex items-center h-10">
@@ -174,8 +174,6 @@ const Home = () => {
       </div>
     </div>
   );
-  
-  
 };
 
 export default Home;

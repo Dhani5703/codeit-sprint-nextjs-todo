@@ -14,10 +14,9 @@ export default {
         white: "#FFFFFF",
         amber: "#92400E",
         state: {
-          100: "#F5F7FA", 
+          100: "#F5F7FA",
           200: "#E2E8F0",
           400: "#94A3B8",
-          
         },
       },
     },

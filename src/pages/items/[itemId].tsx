@@ -126,7 +126,7 @@ const TodoDetailPage = () => {
             style={{
               position: "relative",
               overflow: "hidden",
-              borderRadius: "8px", // 둥근 모서리 추가
+              borderRadius: "8px",
             }}
           >
             <input
@@ -166,7 +166,7 @@ const TodoDetailPage = () => {
               style={{
                 display: "block",
                 marginTop: "8px",
-                backgroundImage: "url(/memo.png)", // 배경 이미지
+                backgroundImage: "url(/memo.png)",
                 backgroundSize: "cover",
                 backgroundRepeat: "no-repeat",
                 backgroundPosition: "center",
