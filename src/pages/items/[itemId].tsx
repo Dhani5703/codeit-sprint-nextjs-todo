@@ -63,6 +63,7 @@ const TodoDetailPage = () => {
       });
       setTodo(updatedItem); // 수정된 항목을 todo 상태에 반영
       alert("메모가 수정되었습니다.");
+      router.push("/"); // 홈 페이지로 이동
     } catch (error) {
       console.error("Error updating todo item:", error);
       alert("메모 수정에 실패했습니다.");

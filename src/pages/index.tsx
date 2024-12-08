@@ -132,7 +132,7 @@ const Home = () => {
                   width={150}
                   height={150}
                 />
-                <p className="text-gray-700">
+                <p className="text-state-400">
                   할 일이 없어요. TODO를 새롭게 추가해주세요!
                 </p>
               </div>
@@ -158,7 +158,7 @@ const Home = () => {
                   width={150}
                   height={150}
                 />
-                <p className="text-gray-700 mt-4">
+                <p className="text-state-400 mt-4">
                   아직 다 한 일이 없어요. 해야 할 일을 체크해보세요!
                 </p>
               </div>
