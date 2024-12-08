@@ -33,7 +33,7 @@ const TodoItem: React.FC<TodoItemProps> = ({
         backgroundImage: `url('/Property 1=${completed ? "Variant2" : "Default"}.png')`,
         backgroundRepeat: "no-repeat",
         backgroundSize: "contain", // 상세 페이지에서 배경 이미지 크기 고정
-        backgroundPosition: "center", 
+        backgroundPosition: "center",
         padding: "8px",
         display: "flex",
         justifyContent: "space-between", // 텍스트와 이미지 간격을 맞추기
@@ -62,6 +62,5 @@ const TodoItem: React.FC<TodoItemProps> = ({
     </div>
   );
 };
-
 
 export default TodoItem;

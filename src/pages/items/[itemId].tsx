@@ -111,15 +111,15 @@ const TodoDetailPage = () => {
       <Header />
       <div className="bg-white p-6 flex-1 w-full max-w-4xl space-y-6 mx-auto">
         <div className="flex justify-center w-full">
-        <div className="w-2/5">
-          <TodoItem
-            id={todo.id}
-            name={todo.name}
-            completed={todo.isCompleted}
-            onToggleComplete={toggleCompletion}
-            isDetailPage={true}
-          />
-        </div>
+          <div className="w-2/5">
+            <TodoItem
+              id={todo.id}
+              name={todo.name}
+              completed={todo.isCompleted}
+              onToggleComplete={toggleCompletion}
+              isDetailPage={true}
+            />
+          </div>
         </div>
         <div className="flex flex-col md:flex-row justify-between">
           {/* 이미지 업로드 칸 */}
@@ -148,7 +148,7 @@ const TodoDetailPage = () => {
               />
             )}
           </div>
-  
+
           {/* 메모 수정 */}
           <div className="w-full md:w-1/2 md:ml-8">
             <textarea
@@ -162,7 +162,7 @@ const TodoDetailPage = () => {
             />
           </div>
         </div>
-  
+
         {/* 수정 및 삭제 버튼 */}
         <div className="flex justify-end mt-4 md:mt-8 gap-4">
           <div className="flex w-full justify-end">
