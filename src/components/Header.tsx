@@ -4,7 +4,7 @@ const Header = () => {
   return (
     <header className="w-full h-10 flex items-center bg-white m-0 p-6">
       <button
-        onClick={() => window.location.reload()}
+        onClick={() => window.location.href = '/'}
         className="ml-[20%] h-[50px] w-[150px] bg-center bg-no-repeat bg-transparent"
         style={{
           backgroundImage: "url('/Size=Large.png')",
