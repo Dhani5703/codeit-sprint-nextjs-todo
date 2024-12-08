@@ -12,11 +12,9 @@
 
 ## 기술 스택
 
-- **Next.js**: 서버 사이드 렌더링을 지원하는 React 프레임워크.
-- **Tailwind CSS**: 유틸리티 클래스 기반의 CSS 프레임워크.
-- **React**: 사용자 인터페이스를 구축하기 위한 JavaScript 라이브러리.
-- **TypeScript**: 정적 타입을 지원하는 JavaScript의 상위 집합.
-- **API**: 할 일 항목을 위한 CRUD 연산을 처리하는 서비스 계층.
+- **Next.js**
+- **Tailwind CSS**
+- **TypeScript**
 
 ## 실행 방법
 
@@ -42,15 +40,19 @@
 4. 브라우저에서 아래 주소로 접속:
    http://localhost:3000
 
-## 기능 상세 설명
+# 기능 상세 설명
+
+## 할 일 목록 페이지 (/)
 
 ### 할 일 추가
 
-사용자는 새로운 할 일을 추가하고 완료 여부, 메모를 작성할 수 있습니다.
+사용자는 새로운 할 일을 추가하고 완료 여부를 확인할 수 있습니다. 
+
+## 할 일 상세 페이지 (/items/{itemId})
 
 ### 할 일 수정
 
-할 일이 생성된 후, 사용자는 해당 항목의 메모를 수정할 수 있습니다. 텍스트를 수정하고 저장하면 변경 사항이 서버에 반영됩니다.
+사용자는 해당 항목의 메모를 수정할 수 있습니다. 텍스트를 수정하고 저장하면 변경 사항이 반영됩니다.
 
 ### 할 일 삭제
 
@@ -64,15 +66,19 @@
 
 ```bash
 /pages
-  /todo
+  /items
     [itemId].tsx     // 할 일 상세 페이지
+  /index             // 할 일 목록 페이지
 /components
   /Header.tsx        // 헤더 컴포넌트
-  /TodoItem.tsx      // 할 일 항목 컴포넌트
+  /TodoItem.tsx      // 각각의 할 일 항목 컴포넌트
+  /TodoList.tsx      // 할 일 항목 리스트 컴포넌트
 /services
-  /todoService.ts    // API와의 연동을 위한 서비스 함수들
+  /todoService.tsx   // API와의 연동을 위한 서비스 함수들
 /utils
-  /apiClient.ts      // API 클라이언트 설정
+  /apiClient.tsx     // API 클라이언트 설정
+/typs
+  /types.tsx         // 타입 지정 파일
 /styles
   /globals.css       // 전역 스타일
 ```
