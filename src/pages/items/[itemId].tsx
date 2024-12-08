@@ -10,7 +10,8 @@ import {
 } from "../../services/todoService";
 import { tenantId } from "../../utils/apiClient";
 import Header from "../../components/Header";
-import TodoItem from "../../components/TodoItem"; // TodoItem 임포트
+import TodoItem from "../../components/TodoItem";
+import "../../app/globals.css";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 const TodoDetailPage = () => {
@@ -106,10 +107,10 @@ const TodoDetailPage = () => {
   if (!todo) return <div>Loading...</div>; // todo가 로드되기 전에 렌더링 하지 않도록 방지
 
   return (
-    <div>
+    <div className="min-h-screen bg-state-100 flex flex-col items-center">
       <Header />
-      <div>
-        {/* TodoItem 컴포넌트를 사용하여 해당 항목 렌더링 */}
+      <div className="bg-white p-6 flex-1 w-full max-w-4xl space-y-6 mx-auto">
+      <div className="flex justify-center">
         <TodoItem
           id={todo.id}
           name={todo.name}
@@ -117,18 +118,10 @@ const TodoDetailPage = () => {
           onToggleComplete={toggleCompletion}
           isDetailPage={true}
         />
-      </div>
-      <div className="container mx-auto p-4">
+        </div>
         <div className="flex flex-col md:flex-row justify-between">
           {/* 이미지 업로드 칸 */}
-          <div
-            className="relative w-full md:w-1/3 h-32 bg-[#F1F5F9] flex justify-center items-center mb-4 md:mb-0"
-            style={{
-              position: "relative",
-              overflow: "hidden",
-              borderRadius: "8px",
-            }}
-          >
+          <div className="relative md:w-1/2 h-48 bg-state-100 flex justify-center items-center rounded-lg mb-4 md:mb-0">
             <input
               type="file"
               accept="image/*"
@@ -137,11 +130,11 @@ const TodoDetailPage = () => {
             />
             {todo.imageUrl ? (
               <Image
-                src="todo.imageUrl"
+                src={todo.imageUrl}
                 alt="Uploaded"
                 width={200}
                 height={200}
-                className="absolute top-0 left-0 w-full h-full object-cover"
+                className="absolute top-0 left-0 object-cover rounded-lg"
               />
             ) : (
               <Image
@@ -153,48 +146,41 @@ const TodoDetailPage = () => {
               />
             )}
           </div>
-
+  
           {/* 메모 수정 */}
-          <div className="w-full md:w-2/3 ml-0 md:ml-8">
+          <div className="w-full md:w-1/2 md:ml-8">
             <textarea
               id="memo"
               value={editedMemo || ""}
               onChange={handleMemoChange}
               rows={10}
               cols={60}
-              placeholder="memo"
-              style={{
-                display: "block",
-                marginTop: "8px",
-                backgroundImage: "url(/memo.png)",
-                backgroundSize: "cover",
-                backgroundRepeat: "no-repeat",
-                backgroundPosition: "center",
-                paddingLeft: "10px",
-                paddingTop: "10px",
-              }}
+              placeholder="Memo"
+              className="w-full h-full p-4 rounded-lg border-none outline-none placeholder:text-amber bg-[url('/memo.png')] bg-cover bg-center bg-no-repeat text-black text-center"
             />
           </div>
         </div>
-
+  
         {/* 수정 및 삭제 버튼 */}
-        <div className="flex justify-between mt-4 md:mt-8">
-          <Image
-            src={`/Edit, Large, ${editedMemo ? "Active" : "Default"}.png`}
-            alt="수정완료"
-            className="cursor-pointer mt-4"
-            width={168}
-            height={56}
-            onClick={handleUpdate}
-          />
-          <Image
-            src="/Delete, Large, Default.png"
-            alt="delete"
-            width={168}
-            height={56}
-            className="cursor-pointer"
-            onClick={handleDelete}
-          />
+        <div className="flex justify-end mt-4 md:mt-8 gap-4">
+          <div className="flex w-full justify-end">
+            <Image
+              src={`/Edit, Large, ${editedMemo ? "Active" : "Default"}.png`}
+              alt="수정완료"
+              className="cursor-pointer mt-4"
+              width={168}
+              height={56}
+              onClick={handleUpdate}
+            />
+            <Image
+              src="/Delete, Large, Default.png"
+              alt="delete"
+              width={168}
+              height={56}
+              className="cursor-pointer mt-4 ml-2"
+              onClick={handleDelete}
+            />
+          </div>
         </div>
       </div>
     </div>
