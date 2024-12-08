@@ -1,7 +1,6 @@
 // import type { Metadata } from 'next';
 import React from 'react';
 import localFont from 'next/font/local';
-import { Html, Head, Main, NextScript } from 'next/document';
 import './globals.css';
 
 // NanumSquareR 폰트 설정
@@ -23,15 +22,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <Html lang="en">
-      <Head>
-        <link rel="icon" href="/favicon.png" />
-      </Head>
+    <html lang="en">
       <body
         className={`${nanumSquareR.variable} ${nanumSquareB.variable} antialiased`}
       >
         {children}
       </body>
-    </Html>
+    </html>
   );
 }
