@@ -22,12 +22,12 @@ const TodoInput: React.FC<TodoInputProps> = ({
           if (e.key === "Enter") addTodo();
         }}
         placeholder="할 일을 입력하세요"
-        className="text-gray-700 flex-grow rounded-l-lg sm:w-[calc(100%-168px)] w-full h-14 bg-[url('/search.png')] bg-center bg-no-repeat bg-contain bg-transparent"
+        className="text-gray-700 flex-grow pl-3 w-full h-14 bg-[url('/search.png')] bg-center bg-no-repeat bg-contain bg-transparent"
         style={{ backgroundSize: "100% 80%" }}
       />
       <button
         onClick={addTodo}
-        className="bg-center bg-no-repeat mb-3 bg-contain w-[168px] h-14 sm:w-[56px] sm:h-12 rounded-r-lg"
+        className="bg-center bg-no-repeat bg-contain h-14 w-[168px] sm:w-[168px]"
         disabled={!newTodo.trim()}
       >
         <span className="sm:hidden">
