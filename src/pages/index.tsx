@@ -44,12 +44,12 @@ const Home = () => {
     try {
       const createdTodo = await createTodoItem(safeTenantId, { name: newTodo });
       setTodos((prevTodos) => [
-        ...prevTodos,
         {
           id: createdTodo.id,
           name: createdTodo.name,
           completed: createdTodo.isCompleted,
         },
+        ...prevTodos,
       ]);
       setNewTodo("");
     } catch (error) {
