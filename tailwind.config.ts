@@ -11,7 +11,7 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
-        white: "#FFFFF",
+        white: "#FFFFFF",
         amber: "#92400E",
         state: {
           100: "#F5F7FA", 
