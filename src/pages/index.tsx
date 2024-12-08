@@ -31,6 +31,7 @@ const Home = () => {
           completed: item.isCompleted,
         }));
         setTodos(mappedTodos);
+        console.log(mappedTodos);
       } catch (error) {
         console.error("Failed to fetch todos:", error);
       }
@@ -52,6 +53,7 @@ const Home = () => {
         ...prevTodos,
       ]);
       setNewTodo("");
+      console.log(setTodos);
     } catch (error) {
       console.error("Failed to create todo item:", error);
     }
@@ -132,8 +134,9 @@ const Home = () => {
                   width={150}
                   height={150}
                 />
-                <p className="text-state-400">
-                  할 일이 없어요. TODO를 새롭게 추가해주세요!
+                <p className="text-state-400 mt-4 text-center">
+                  할 일이 없어요. <br />
+                  TODO를 새롭게 추가해주세요!
                 </p>
               </div>
             ) : (
@@ -158,8 +161,9 @@ const Home = () => {
                   width={150}
                   height={150}
                 />
-                <p className="text-state-400 mt-4">
-                  아직 다 한 일이 없어요. 해야 할 일을 체크해보세요!
+                <p className="text-state-400 mt-4 text-center">
+                  아직 다 한 일이 없어요. <br />
+                  해야 할 일을 체크해보세요!
                 </p>
               </div>
             ) : (
