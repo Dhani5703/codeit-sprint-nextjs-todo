@@ -84,99 +84,113 @@ const Home = () => {
 
   return (
     <div className="min-h-screen bg-state-100 flex flex-col items-center">
-      <Header />
-      <div className="w-full max-w-4xl space-y-6 mt-6">
-        {/* 입력 필드 */}
-        <div className="flex items-center gap-4 w-full">
-          <input
-            type="text"
-            value={newTodo}
-            onChange={(e) => setNewTodo(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") addTodo();
-            }}
-            placeholder="할 일을 입력하세요"
-            className="text-gray-700 flex-grow p-3 border rounded-lg"
-            style={{
-              backgroundImage: "url('/search.png')",
-              backgroundPosition: "center",
-              backgroundRepeat: "no-repeat",
-              backgroundSize: "100% 100%",
-              height: "56px",
-            }}
+  <Header />
+  <div className="w-full max-w-4xl space-y-6 mt-6">
+    {/* 입력 필드 */}
+    <div className="flex items-center gap-0 w-full">
+      <input
+        type="text"
+        value={newTodo}
+        onChange={(e) => setNewTodo(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") addTodo();
+        }}
+        placeholder="할 일을 입력하세요"
+        className="text-gray-700 flex-grow p-3 rounded-l-lg sm:w-[calc(100%-168px)] w-full h-14 bg-[url('/search.png')] bg-center bg-no-repeat bg-contain bg-transparent"
+        style={{
+          backgroundSize: "100% 80%", 
+        }}
+      />
+      <button
+        onClick={addTodo}
+        className="bg-center bg-no-repeat bg-contain w-[168px] h-14 sm:w-[140px] sm:h-12rounded-r-lg"
+        disabled={!newTodo.trim()}
+      >
+        <span className="sm:hidden">
+          <Image
+            src={
+              newTodo.trim()
+                ? "/Type=Add, Size=Small, State=Active.png"
+                : "/Type=Add, Size=Small, State=Default.png"
+            }
+            alt="Button Image"
+            width={40} // Small button image width
+            height={40} // Small button image height
           />
-          <button
-            onClick={addTodo}
-            className="bg-center bg-no-repeat bg-contain w-[168px] h-[56px] p-2 rounded-lg"
-            style={{
-              backgroundImage: `url('${
-                newTodo.trim()
-                  ? "/Type=Add, Size=Large, State=Active.png"
-                  : "/Type=Add, Size=Large, State=Default.png"
-              }')`,
-            }}
-            disabled={!newTodo.trim()}
-          ></button>
+        </span>
+        <span className="hidden sm:block">
+          <Image
+            src={
+              newTodo.trim()
+                ? "/Type=Add, Size=Large, State=Active.png"
+                : "/Type=Add, Size=Large, State=Default.png"
+            }
+            alt="Button Image"
+            width={168} // Large button image width
+            height={56} // Large button image height
+          />
+        </span>
+      </button>
+    </div>
+    {/* TODO & DONE 리스트 */}
+    <div className="flex flex-col sm:flex-row items-stretch justify-center gap-6">
+      {/* TODO 섹션 */}
+      <div className="flex-1 rounded-lg shadow-md p-6 flex flex-col">
+        <div className="flex items-center h-10">
+          <Image src="/todo.png" alt="TODO" width={100} height={36} />
         </div>
-
-        {/* TODO & DONE 리스트 */}
-        <div className="flex flex-col sm:flex-row items-stretch justify-center gap-6">
-          {/* TODO 섹션 */}
-          <div className="flex-1 rounded-lg shadow-md p-6 flex flex-col">
-            <div className="flex items-center h-10">
-              <Image src="/todo.png" alt="TODO" width={100} height={36} />
-            </div>
-            {todos.filter((todo) => !todo.completed).length === 0 ? (
-              <div className="flex flex-col items-center justify-center mt-8">
-                <Image
-                  src="/Type=Todo, Size=Large.png"
-                  alt="TODO Empty"
-                  width={150}
-                  height={150}
-                />
-                <p className="text-state-400 mt-4 text-center">
-                  할 일이 없어요. <br />
-                  TODO를 새롭게 추가해주세요!
-                </p>
-              </div>
-            ) : (
-              <TodoList
-                todos={todos.filter((todo) => !todo.completed)}
-                onToggleComplete={toggleTodoComplete}
-                onViewDetails={viewTodoDetails}
-              />
-            )}
+        {todos.filter((todo) => !todo.completed).length === 0 ? (
+          <div className="flex flex-col items-center justify-center mt-8">
+            <Image
+              src="/Type=Todo, Size=Large.png"
+              alt="TODO Empty"
+              width={150}
+              height={150}
+            />
+            <p className="text-state-400 mt-4 text-center">
+              할 일이 없어요. <br />
+              TODO를 새롭게 추가해주세요!
+            </p>
           </div>
+        ) : (
+          <TodoList
+            todos={todos.filter((todo) => !todo.completed)}
+            onToggleComplete={toggleTodoComplete}
+            onViewDetails={viewTodoDetails}
+          />
+        )}
+      </div>
 
-          {/* DONE 섹션 */}
-          <div className="flex-1 rounded-lg shadow-md p-6 flex flex-col">
-            <div className="flex items-center h-10">
-              <Image src="/done.png" alt="DONE" width={100} height={36} />
-            </div>
-            {todos.filter((todo) => todo.completed).length === 0 ? (
-              <div className="flex flex-col items-center justify-center mt-8">
-                <Image
-                  src="/Type=Done, Size=Large.png"
-                  alt="DONE Empty"
-                  width={150}
-                  height={150}
-                />
-                <p className="text-state-400 mt-4 text-center">
-                  아직 다 한 일이 없어요. <br />
-                  해야 할 일을 체크해보세요!
-                </p>
-              </div>
-            ) : (
-              <TodoList
-                todos={todos.filter((todo) => todo.completed)}
-                onToggleComplete={toggleTodoComplete}
-                onViewDetails={viewTodoDetails}
-              />
-            )}
-          </div>
+      {/* DONE 섹션 */}
+      <div className="flex-1 rounded-lg shadow-md p-6 flex flex-col">
+        <div className="flex items-center h-10">
+          <Image src="/done.png" alt="DONE" width={100} height={36} />
         </div>
+        {todos.filter((todo) => todo.completed).length === 0 ? (
+          <div className="flex flex-col items-center justify-center mt-8">
+            <Image
+              src="/Type=Done, Size=Large.png"
+              alt="DONE Empty"
+              width={150}
+              height={150}
+            />
+            <p className="text-state-400 mt-4 text-center">
+              아직 다 한 일이 없어요. <br />
+              해야 할 일을 체크해보세요!
+            </p>
+          </div>
+        ) : (
+          <TodoList
+            todos={todos.filter((todo) => todo.completed)}
+            onToggleComplete={toggleTodoComplete}
+            onViewDetails={viewTodoDetails}
+          />
+        )}
       </div>
     </div>
+  </div>
+</div>
+
   );
 };
 
