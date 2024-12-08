@@ -28,12 +28,12 @@ const TodoItem: React.FC<TodoItemProps> = ({
 }) => {
   return (
     <div
-      className="todo-item flex items-center gap-2 p-2 mb-2 border-b"
+      className="todo-item flex items-center p-2 mb-2 border-b"
       style={{
         backgroundImage: `url('/Property 1=${completed ? "Variant2" : "Default"}.png')`, // 완료 상태에 따라 배경 이미지 변경
         backgroundRepeat: "no-repeat",
-        backgroundSize: "contain",
-        // height: "35px",
+        backgroundSize: "100% auto",
+        // height: "45px",
         // display: "flex",
         // alignItems: "center",
       }}
