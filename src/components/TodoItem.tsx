@@ -33,11 +33,9 @@ const TodoItem: React.FC<TodoItemProps> = ({
         backgroundImage: `url('/Property 1=${completed ? "Variant2" : "Default"}.png')`, // 완료 상태에 따라 배경 이미지 변경
         backgroundRepeat: "no-repeat", // 배경 이미지 반복 금지
         backgroundSize: "contain", // 이미지 비율 유지하며 크기 조정
-        height: "40px", // 항목 높이 설정
-        paddingLeft: "20px",
+        height: "35px", // 항목 높이 설정
         display: "flex", // 내용 정렬
         alignItems: "center", // 수직 정렬
-        marginBottom: "16px",
       }}
     >
       <Image
@@ -45,11 +43,8 @@ const TodoItem: React.FC<TodoItemProps> = ({
         alt={completed ? "Done" : "Todo"}
         onClick={() => onToggleComplete(id, completed)} // 이미지 클릭 시 완료 상태 변경
         className="cursor-pointer w-6 h-6" // 이미지 크기 설정
-        style={{
-          padding: "10px", // padding은 style로 적용
-        }}
-        width={24} // w-6의 크기를 반영하여 24px로 설정
-        height={24} // h-6의 크기를 반영하여 24px로 설정
+        width={32} // w-6의 크기를 반영하여 24px로 설정
+        height={32} // h-6의 크기를 반영하여 24px로 설정
       />
       {/* 텍스트 부분, isDetailPage가 false일 때만 onClick을 활성화 */}
       <span
@@ -57,6 +52,8 @@ const TodoItem: React.FC<TodoItemProps> = ({
         className={`flex-1 ${completed ? "text-gray-400" : ""} cursor-pointer`} // 완료 상태에 따라 스타일 변경
         style={{
           pointerEvents: isDetailPage ? "none" : "auto", // 클릭 비활성화
+          whiteSpace: "nowrap", // 텍스트 줄바꿈 방지
+          overflow: "hidden", // 넘치는 텍스트 숨김
         }}
       >
         {name}
