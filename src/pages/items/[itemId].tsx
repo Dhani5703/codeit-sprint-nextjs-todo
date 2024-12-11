@@ -95,7 +95,7 @@ const TodoDetailPage = () => {
     if (file) {
       // 파일 이름이 영어로만 이루어졌는지 확인
       const fileName = file.name;
-      const fileNameRegex = /^[a-zA-Z_-]+$/;
+      const fileNameRegex = /^[a-zA-Z0-9._,\-/]+$/;
       if (!fileNameRegex.test(fileName)) {
         alert("이미지 파일 이름은 영문자만 포함됩니다.");
         return;
@@ -106,7 +106,7 @@ const TodoDetailPage = () => {
         alert("파일 크기는 5MB 이하로 업로드해 주세요.");
         return;
       }
-  
+
       try {
         const uploadedImageUrl = await uploadImage(tenantId, file);
         setTodo((prevTodo: any) => ({
@@ -118,7 +118,6 @@ const TodoDetailPage = () => {
       }
     }
   };
-  
 
   // 삭제
   const handleDelete = async () => {
@@ -155,14 +154,29 @@ const TodoDetailPage = () => {
         </div>
         <div className="flex flex-col md:flex-row justify-between">
           {/* 이미지 업로드 칸 */}
-          <div className="relative md:w-1/2 h-48 bg-state-100 flex justify-center items-center rounded-lg mb-4 md:mb-0">
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleImageChange}
-              className="absolute inset-0 opacity-0 cursor-pointer"
-            />
-            {todo.imageUrl ? (
+          <div className="relative md:w-2/5 h-48 bg-state-100 border-4 border-dashed border-state-300 flex justify-center items-center rounded-lg mb-4 md:mb-0 min-h-full">
+            {/* 이미지 추가 버튼: "Type=Edit.png"를 클릭해야 업로드 */}
+            {!todo.imageUrl && (
+              <div className="absolute inset-0 flex justify-center items-center">
+                <Image
+                  src="/img.png"
+                  alt="Upload"
+                  width={150}
+                  height={150}
+                  className="w-12 h-12 object-contain"
+                />
+                <Image
+                  src="/Type=Plus.png" // 이미지 추가 버튼
+                  alt="Edit"
+                  width={45}
+                  height={45}
+                  className="absolute bottom-2 right-2 cursor-pointer" // 버튼을 클릭하여 이미지 추가
+                  onClick={() => document.getElementById("imageInput")?.click()} // 클릭 시 input 요소 트리거
+                />
+              </div>
+            )}
+            {/* 이미지 업로드 시 실제 이미지가 표시될 부분 */}
+            {todo.imageUrl && (
               <Image
                 src={todo.imageUrl}
                 alt="Uploaded"
@@ -170,51 +184,52 @@ const TodoDetailPage = () => {
                 height={200}
                 className="absolute top-0 left-0 object-cover rounded-lg"
               />
-            ) : (
-              <Image
-                src="/img.png"
-                alt="Upload"
-                width={150}
-                height={150}
-                className="w-12 h-12 object-contain cursor-pointer"
-              />
             )}
+            {/* 파일 업로드 input */}
+            <input
+              id="imageInput"
+              type="file"
+              accept="image/*"
+              onChange={handleImageChange}
+              className="absolute inset-0 opacity-0 cursor-pointer"
+            />
           </div>
-
-          {/* 메모 수정 */}
-          <div className="w-full md:w-1/2 md:ml-8">
+          <div className="relative w-full h-48 md:w-3/5 md:ml-8 flex-grow min-h-full bg-[url('/memo.png')] bg-cover bg-center bg-no-repeat flex flex-col items-center justify-center">
+            {/* 텍스트를 표시하는 영역 */}
+            <div className="absolute top-2 text-amber font-bold z-10">Memo</div>
+            {/* 입력 영역 */}
             <textarea
               id="memo"
               value={editedMemo || ""}
               onChange={handleMemoChange} // 메모 변경
               rows={10}
               cols={60}
-              placeholder="Memo"
-              className="w-full h-full p-4 rounded-lg border-none outline-none placeholder:text-amber bg-[url('/memo.png')] bg-cover bg-center bg-no-repeat text-black text-center"
+              placeholder=""
+              className="w-full h-3/5 mt-auto p-4 rounded-lg border-none outline-none bg-transparent text-black text-center z-0"
             />
           </div>
         </div>
+      </div>
 
-        {/* 수정 및 삭제 버튼 */}
-        <div className="flex justify-end mt-4 md:mt-8 gap-4">
-          <div className="flex w-full justify-end">
-            <Image
-              src={`/Edit, Large, ${editedMemo && editedName ? "Active" : "Default"}.png`}
-              alt="수정완료"
-              className="cursor-pointer mt-4"
-              width={168}
-              height={56}
-              onClick={handleUpdate}
-            />
-            <Image
-              src="/Delete, Large, Default.png"
-              alt="delete"
-              width={168}
-              height={56}
-              className="cursor-pointer mt-4 ml-2"
-              onClick={handleDelete}
-            />
-          </div>
+      {/* 수정 및 삭제 버튼 */}
+      <div className="flex justify-end mt-4 md:mt-8 gap-4">
+        <div className="flex w-full justify-end">
+          <Image
+            src={`/Edit, Large, ${editedMemo && editedName ? "Active" : "Default"}.png`}
+            alt="수정완료"
+            className="cursor-pointer mt-4"
+            width={168}
+            height={56}
+            onClick={handleUpdate}
+          />
+          <Image
+            src="/Delete, Large, Default.png"
+            alt="delete"
+            width={168}
+            height={56}
+            className="cursor-pointer mt-4 ml-2"
+            onClick={handleDelete}
+          />
         </div>
       </div>
     </div>

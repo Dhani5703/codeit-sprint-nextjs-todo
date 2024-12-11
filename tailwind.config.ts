@@ -19,7 +19,7 @@ export default {
         amber: "#92400E",
         rose: "#F43F5E",
         lime: "#BEF264",
-        violet:{
+        violet: {
           600: "#7C3AED",
           100: "#EDE9FE",
         },
