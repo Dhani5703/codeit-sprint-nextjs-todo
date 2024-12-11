@@ -67,12 +67,13 @@ const TodoDetailPage = () => {
   const handleUpdate = async () => {
     if (!todo) return;
 
-    console.log("수정하려는 데이터:", { name: editedName, memo: editedMemo });
+    console.log("수정하려는 데이터:", { name: editedName, memo: editedMemo, imageUrl: todo.imageUrl });
 
     try {
       const updatedItem = await updateTodoItem(Number(itemId), {
         name: editedName || todo.name, // name이 비어있으면 기존 name 값 사용
-        memo: editedMemo || "",
+        memo: editedMemo || "", //비어있으면 빈 문자열
+        imageUrl: todo.imageUrl || "", // 업로드된 이미지 URL, 없으면 빈 문자열
       });
       setTodo(updatedItem);
       alert("할 일이 수정되었습니다.");
