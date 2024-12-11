@@ -27,7 +27,7 @@ const TodoInput: React.FC<TodoInputProps> = ({
       />
       <button
         onClick={addTodo}
-        className="bg-center bg-no-repeat bg-contain h-14 w-[168px] sm:w-[168px]"
+        className="bg-center bg-no-repeat bg-contain h-14 w-[80px] sm:w-[168px]"
         disabled={!newTodo.trim()}
       >
         <span className="sm:hidden">
