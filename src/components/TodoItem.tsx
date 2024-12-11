@@ -39,12 +39,12 @@ const TodoItem: React.FC<TodoItemProps> = ({
         height={32}
       />
       {isEditable ? (
-        <div className="flex items-center flex-1 bg-transparent">
+        <div className="flex items-center flex-1 bg-transparent border-none outline-none ">
           <input
             type="text"
             value={name}
             onChange={(e) => onEditName?.(e.target.value)} // 이름 변경 처리
-            className="flex-1 p-2 rounded"
+            className="flex-1 p-2 rounded border-none outline-none"
           />
         </div>
       ) : (

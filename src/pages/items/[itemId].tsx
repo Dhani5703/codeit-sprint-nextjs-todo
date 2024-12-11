@@ -209,27 +209,26 @@ const TodoDetailPage = () => {
             />
           </div>
         </div>
-      </div>
-
-      {/* 수정 및 삭제 버튼 */}
-      <div className="flex justify-end mt-4 md:mt-8 gap-4">
-        <div className="flex w-full justify-end">
-          <Image
-            src={`/Edit, Large, ${editedMemo && editedName ? "Active" : "Default"}.png`}
-            alt="수정완료"
-            className="cursor-pointer mt-4"
-            width={168}
-            height={56}
-            onClick={handleUpdate}
-          />
-          <Image
-            src="/Delete, Large, Default.png"
-            alt="delete"
-            width={168}
-            height={56}
-            className="cursor-pointer mt-4 ml-2"
-            onClick={handleDelete}
-          />
+        {/* 수정 및 삭제 버튼 */}
+        <div className="flex justify-end mt-4 md:mt-8 gap-4">
+          <div className="flex w-full justify-end">
+            <Image
+              src={`/Edit, Large, ${editedMemo && editedName ? "Active" : "Default"}.png`}
+              alt="수정완료"
+              className="cursor-pointer mt-4"
+              width={168}
+              height={56}
+              onClick={handleUpdate}
+            />
+            <Image
+              src="/Delete, Large, Default.png"
+              alt="delete"
+              width={168}
+              height={56}
+              className="cursor-pointer mt-4 ml-2"
+              onClick={handleDelete}
+            />
+          </div>
         </div>
       </div>
     </div>

@@ -13,7 +13,7 @@ const TodoInput: React.FC<TodoInputProps> = ({
   addTodo,
 }) => {
   return (
-    <div className="flex items-center gap-0 w-full">
+    <div className="flex items-center gap-0 w-full border-none outline-none">
       <input
         type="text"
         value={newTodo}
@@ -22,7 +22,7 @@ const TodoInput: React.FC<TodoInputProps> = ({
           if (e.key === "Enter") addTodo();
         }}
         placeholder="할 일을 입력하세요"
-        className="text-gray-700 flex-grow pl-3 w-full h-14 bg-[url('/search.png')] bg-center bg-no-repeat bg-contain bg-transparent m-2"
+        className="text-gray-700 flex-grow pl-3 w-full h-14 bg-[url('/search.png')] bg-center bg-no-repeat bg-contain bg-transparent border-none outline-none m-2"
         style={{ backgroundSize: "100% 80%" }}
       />
       <button
