@@ -12,11 +12,12 @@ import Header from "../../components/Header";
 import TodoItem from "../../components/TodoItem";
 import "../../app/globals.css";
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const TodoDetailPage = () => {
   const [todo, setTodo] = useState<any>(null); // 초기 상태를 null로 설정
-  const [editedName, setEditedName] = useState<string>(""); 
-  const [editedMemo, setEditedMemo] = useState<string>(""); 
-  const [isNameChanged, setIsNameChanged] = useState<boolean>(false); 
+  const [editedName, setEditedName] = useState<string>("");
+  const [editedMemo, setEditedMemo] = useState<string>("");
+  const [isNameChanged, setIsNameChanged] = useState<boolean>(false);
   const [isMemoChanged, setIsMemoChanged] = useState<boolean>(false);
   const router = useRouter();
   const { itemId } = router.query;
