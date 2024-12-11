@@ -89,7 +89,7 @@ const TodoDetailPage = () => {
     const file = event.target.files?.[0];
     if (file) {
       try {
-        const uploadedImageUrl = await uploadImage(file);
+        const uploadedImageUrl = await uploadImage(tenantId, file);
         setTodo((prevTodo: any) => ({
           ...prevTodo,
           imageUrl: uploadedImageUrl, // imageUrl을 업데이트

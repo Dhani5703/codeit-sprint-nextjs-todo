@@ -1,6 +1,7 @@
 // src/services/todoService.ts
 import apiClient from "../utils/apiClient";
 import { tenantId } from "../utils/apiClient";
+import axios from "axios";
 
 //export const tenantId = process.env.NEXT_PUBLIC_TENANT_ID; // 테넌트 ID
 
@@ -99,30 +100,39 @@ export const deleteTodoItem = async (tenantId: string, itemId: number) => {
 
 /**
  * 이미지 업로드 API
+ * @param tenantId - 테넌트 ID
  * @param file - 업로드할 이미지 파일
+ * @returns 업로드된 이미지의 URL
  */
-export const uploadImage = async (file: File): Promise<string | undefined> => {
+export const uploadImage = async (tenantId: string, file: File): Promise<string | undefined> => {
   const formData = new FormData();
-  formData.append("file", file);
+  formData.append("image", file); // 'image'는 요청 본문에서 이미지의 필드명
 
   try {
-    const response = await apiClient.post(
-      `/${tenantId}/images/upload`,
+    const response = await axios.post(
+      `${process.env.NEXT_PUBLIC_API_URL}/${tenantId}/images/upload`, 
       formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data", // FormData에 적합한 Content-Type
+        },
+      }
     );
-
-    if (response.status === 200) {
-      return response.data.url; // 성공적으로 URL을 반환
+    console.log(response.data);
+    if (response.status === 201) {
+      return response.data.url || "No URL returned"; // 반환된 데이터에 URL이 있는지 확인
+    }
+    else if (response.status === 200) {
+      return response.data.url; // 서버에서 반환한 URL을 반환
     } else {
       throw new Error(
-        `Failed to upload image. Server responded with status ${response.status}`,
+        `Failed to upload image. Server responded with status ${response.status}`
       );
     }
   } catch (error) {
     if (error instanceof Error) {
       console.error("Error uploading image:", error.message);
     }
-    // 서버 오류 메시지 또는 일반 메시지
     return undefined; // 실패한 경우 undefined 반환
   }
 };
