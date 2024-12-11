@@ -63,7 +63,7 @@ const TodoDetailPage = () => {
     try {
       const updatedItem = await updateTodoItem(Number(itemId), {
         name: editedName,
-        memo: editedMemo
+        memo: editedMemo,
       });
       setTodo(updatedItem); // 수정된 항목을 todo 상태에 반영
       alert("할 일이 수정되었습니다.");
@@ -119,7 +119,7 @@ const TodoDetailPage = () => {
           <div className="w-3/5">
             <TodoItem
               id={todo.id}
-              name={editedName ||todo.name}
+              name={editedName || todo.name}
               completed={todo.isCompleted}
               onToggleComplete={toggleCompletion}
               onEditName={(newName) => {
