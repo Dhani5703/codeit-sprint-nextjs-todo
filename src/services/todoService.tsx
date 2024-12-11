@@ -1,5 +1,5 @@
 import apiClient from "../utils/apiClient";
-import uploadApiClient from '../utils/uploadApiClient';
+import uploadApiClient from "../utils/uploadApiClient";
 import { tenantId } from "../utils/apiClient";
 
 //export const tenantId = process.env.NEXT_PUBLIC_TENANT_ID; // 테넌트 ID
@@ -103,13 +103,16 @@ export const deleteTodoItem = async (tenantId: string, itemId: number) => {
  * @param file - 업로드할 이미지 파일
  * @returns 업로드된 이미지의 URL
  */
-export const uploadImage = async (tenantId: string, file: File): Promise<string | undefined> => {
+export const uploadImage = async (
+  tenantId: string,
+  file: File,
+): Promise<string | undefined> => {
   const formData = new FormData();
   formData.append("image", file); // 'image'는 요청 본문에서 이미지의 필드명
 
   try {
     const response = await uploadApiClient.post(
-      `/${tenantId}/images/upload`, 
+      `/${tenantId}/images/upload`,
       formData,
     );
     //console.log(response.data);
@@ -119,7 +122,7 @@ export const uploadImage = async (tenantId: string, file: File): Promise<string 
       return response.data.url; // 서버에서 반환한 URL을 반환
     } else {
       throw new Error(
-        `Failed to upload image. Server responded with status ${response.status}`
+        `Failed to upload image. Server responded with status ${response.status}`,
       );
     }
   } catch (error) {

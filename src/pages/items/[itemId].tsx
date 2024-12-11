@@ -67,7 +67,11 @@ const TodoDetailPage = () => {
   const handleUpdate = async () => {
     if (!todo) return;
 
-    console.log("수정하려는 데이터:", { name: editedName, memo: editedMemo, imageUrl: todo.imageUrl });
+    console.log("수정하려는 데이터:", {
+      name: editedName,
+      memo: editedMemo,
+      imageUrl: todo.imageUrl,
+    });
 
     try {
       const updatedItem = await updateTodoItem(Number(itemId), {
