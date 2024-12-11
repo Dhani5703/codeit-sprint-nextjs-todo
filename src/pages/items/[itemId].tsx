@@ -12,11 +12,12 @@ import Header from "../../components/Header";
 import TodoItem from "../../components/TodoItem";
 import "../../app/globals.css";
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
 const TodoDetailPage = () => {
   const [todo, setTodo] = useState<any>(null); // 초기 상태를 null로 설정
-  const [editedName, setEditedName] = useState<string>(""); // 이름 수정 상태
-  const [editedMemo, setEditedMemo] = useState<string>(""); // 메모 수정 상태
+  const [editedName, setEditedName] = useState<string>(""); 
+  const [editedMemo, setEditedMemo] = useState<string>(""); 
+  const [isNameChanged, setIsNameChanged] = useState<boolean>(false); 
+  const [isMemoChanged, setIsMemoChanged] = useState<boolean>(false);
   const router = useRouter();
   const { itemId } = router.query;
 
@@ -55,12 +56,14 @@ const TodoDetailPage = () => {
 
   // 이름 수정 처리
   const handleNameChange = (newName: string) => {
-    setEditedName(newName); // 입력된 이름 상태 업데이트
+    setEditedName(newName);
+    setIsNameChanged(newName !== todo?.name); // 이름이 변경되었는지 확인
   };
 
   // 메모 수정 처리
   const handleMemoChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setEditedMemo(e.target.value); // 메모 상태 업데이트
+    setEditedMemo(e.target.value);
+    setIsMemoChanged(e.target.value !== todo?.memo); // 메모가 변경되었는지 확인
   };
 
   // 수정 완료
@@ -213,7 +216,7 @@ const TodoDetailPage = () => {
         <div className="flex justify-end mt-4 md:mt-8 gap-4">
           <div className="flex w-full justify-end">
             <Image
-              src={`/Edit, Large, ${editedMemo && editedName ? "Active" : "Default"}.png`}
+              src={`/Edit, Large, ${isMemoChanged || isNameChanged ? "Active" : "Default"}.png`}
               alt="수정완료"
               className="cursor-pointer mt-4"
               width={168}
