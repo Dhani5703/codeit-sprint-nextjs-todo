@@ -121,7 +121,7 @@ const TodoDetailPage = () => {
       <Header />
       <div className="bg-white p-6 flex-1 w-full max-w-4xl space-y-6 mx-auto">
         <div className="flex justify-center w-full">
-          <div className="w-3/5">
+          <div className="w-full">
             <TodoItem
               id={todo.id}
               name={editedName} // 이름을 상태에서 가져옴

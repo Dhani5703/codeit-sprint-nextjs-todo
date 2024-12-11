@@ -24,34 +24,28 @@ const TodoItem: React.FC<TodoItemProps> = ({
 }) => {
   return (
     <div
-      className="todo-item flex items-center p-2 mb-2 border-b"
+      className="todo-item flex items-center p-2 mb-2 border-b bg-center bg-no-repeat bg-cover justify-between"
       style={{
         backgroundImage: `url('/Property 1=${completed ? "Variant2" : "Default"}.png')`,
-        backgroundRepeat: "no-repeat",
-        backgroundSize: "100% 100%",
-        backgroundPosition: "center",
-        padding: "8px",
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
+        backgroundSize:'100% 100%'
       }}
     >
-      <Image
-        src={`/Property 1=${completed ? "Done" : "Todo"}.png`}
-        alt={completed ? "Done" : "Todo"}
-        onClick={() => onToggleComplete(id, completed)}
-        className="cursor-pointer w-6 h-6"
-        width={32}
-        height={32}
-      />
-      {isEditable ? (
-        <div className="flex items-center flex-1">
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => onEditName(e.target.value)} // 이름 변경 처리
-            className="flex-1 p-2 rounded"
-          />
+    <Image
+      src={`/Property 1=${completed ? "Done" : "Todo"}.png`}
+      alt={completed ? "Done" : "Todo"}
+      onClick={() => onToggleComplete(id, completed)}
+      className="cursor-pointer w-6 h-6"
+      width={32}
+      height={32}
+    />
+    {isEditable ? (
+      <div className="flex items-center flex-1 bg-transparent">
+        <input
+          type="text"
+          value={name}
+          onChange={(e) => onEditName(e.target.value)} // 이름 변경 처리
+          className="flex-1 p-2 rounded"
+        />
         </div>
       ) : (
         <span

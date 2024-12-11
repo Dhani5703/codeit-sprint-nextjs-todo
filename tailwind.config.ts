@@ -8,6 +8,10 @@ export default {
   ],
   theme: {
     extend: {
+      // backgroundImage: {
+      //   'variant2': "url('/Property 1=Variant2.png')",
+      //   'default': "url('/Property 1=Default.png')",
+      // },
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
