@@ -49,6 +49,7 @@ const TodoDetailPage = () => {
       });
       setTodo(updatedTodo);
       alert("완료 상태가 업데이트되었습니다.");
+      // router.push("/"); // 목록 페이지로 이동
     } catch (error) {
       console.error("Failed to update completion status:", error);
       alert("완료 상태 수정에 실패했습니다.");

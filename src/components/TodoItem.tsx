@@ -41,12 +41,12 @@ const TodoItem: React.FC<TodoItemProps> = ({
       />
       {/* 텍스트 영역 */}
       {isEditable ? (
-        <div className="flex items-center flex-1 bg-transparent">
+        <div className="flex items-center flex-1 ">
           <input
             type="text"
             value={name}
             onChange={(e) => onEditName?.(e.target.value)} // 이름 변경 처리
-            className="flex-1 p-2 mr-3 rounded border-none outline-none text-center"
+            className="flex-1 p-2 mr-3 rounded border-none outline-none bg-transparent text-center"
           />
         </div>
       ) : (

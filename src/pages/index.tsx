@@ -11,6 +11,7 @@ import {
 } from "@/services/todoService";
 import { tenantId } from "@/utils/apiClient";
 import { Todo } from "@/types/types";
+import { TodoItem } from "@/components/TodoItem";
 import "../app/globals.css";
 
 const safeTenantId = tenantId as string;
@@ -25,10 +26,10 @@ const Home = () => {
     const loadTodos = async () => {
       try {
         const items = await fetchTodoItems(safeTenantId || "");
-        const mappedTodos = items.map((item: Todo) => ({
+        const mappedTodos = items.map((item: TodoItem) => ({
           id: item.id,
           name: item.name,
-          completed: item.completed,
+          completed: item.isCompleted,
         }));
         setTodos(mappedTodos);
         console.log(mappedTodos);
