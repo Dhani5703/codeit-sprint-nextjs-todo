@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Image from "next/image";
 
 export interface TodoItemProps {
@@ -22,14 +22,6 @@ const TodoItem: React.FC<TodoItemProps> = ({
   isDetailPage = false,
   isEditable = false,
 }) => {
-  const [editingName, setEditingName] = useState(name);
-
-  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const updatedName = e.target.value;
-    setEditingName(updatedName); // 내부 상태 업데이트
-    onEditName(updatedName); // 부모로 업데이트 전달
-  };
-
   return (
     <div
       className="todo-item flex items-center p-2 mb-2 border-b"
@@ -56,8 +48,8 @@ const TodoItem: React.FC<TodoItemProps> = ({
         <div className="flex items-center flex-1">
           <input
             type="text"
-            value={editingName}
-            onChange={handleNameChange}
+            value={name}
+            onChange={(e) => onEditName(e.target.value)} // 이름 변경 처리
             className="flex-1 p-2 rounded"
           />
         </div>

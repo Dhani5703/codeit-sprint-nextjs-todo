@@ -15,8 +15,8 @@ import "../../app/globals.css";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 const TodoDetailPage = () => {
   const [todo, setTodo] = useState<any>(null); // 초기 상태를 null로 설정
-  const [editedName, setEditedName] = useState<string>("");
-  const [editedMemo, setEditedMemo] = useState<string>("");
+  const [editedName, setEditedName] = useState<string>(""); // 이름 수정 상태
+  const [editedMemo, setEditedMemo] = useState<string>(""); // 메모 수정 상태
   const router = useRouter();
   const { itemId } = router.query;
 
@@ -30,7 +30,6 @@ const TodoDetailPage = () => {
         setTodo(todoDetails);
         setEditedName(todoDetails.name);
         setEditedMemo(todoDetails.memo);
-        console.log(todoDetails);
       } catch (error) {
         console.error("Failed to fetch todo item details:", error);
       }
@@ -54,7 +53,17 @@ const TodoDetailPage = () => {
     }
   };
 
-  // 상세 페이지에서 수정하는 부분
+  // 이름 수정 처리
+  const handleNameChange = (newName: string) => {
+    setEditedName(newName); // 입력된 이름 상태 업데이트
+  };
+
+  // 메모 수정 처리
+  const handleMemoChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setEditedMemo(e.target.value); // 메모 상태 업데이트
+  };
+
+  // 수정 완료
   const handleUpdate = async () => {
     if (!todo) return;
 
@@ -62,20 +71,16 @@ const TodoDetailPage = () => {
 
     try {
       const updatedItem = await updateTodoItem(Number(itemId), {
-        name: editedName,
-        memo: editedMemo,
+        name: editedName || todo.name, // name이 비어있으면 기존 name 값 사용
+        memo: editedMemo || "",
       });
-      setTodo(updatedItem); // 수정된 항목을 todo 상태에 반영
+      setTodo(updatedItem);
       alert("할 일이 수정되었습니다.");
       router.push("/"); // 홈 페이지로 이동
     } catch (error) {
       console.error("Error updating todo item:", error);
       alert("할 일 수정에 실패했습니다.");
     }
-  };
-
-  const handleMemoChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setEditedMemo(e.target.value); // 메모를 변경할 때마다 memo 상태 업데이트
   };
 
   const handleImageChange = async (
@@ -119,13 +124,10 @@ const TodoDetailPage = () => {
           <div className="w-3/5">
             <TodoItem
               id={todo.id}
-              name={editedName || todo.name}
+              name={editedName} // 이름을 상태에서 가져옴
               completed={todo.isCompleted}
               onToggleComplete={toggleCompletion}
-              onEditName={(newName) => {
-                console.log("Name updated to:", newName);
-                setEditedName(newName); // 입력값을 상태로 업데이트
-              }}
+              onEditName={handleNameChange} // 이름 수정 콜백
               isDetailPage={true}
               isEditable={true}
             />
@@ -164,7 +166,7 @@ const TodoDetailPage = () => {
             <textarea
               id="memo"
               value={editedMemo || ""}
-              onChange={handleMemoChange}
+              onChange={handleMemoChange} // 메모 변경
               rows={10}
               cols={60}
               placeholder="Memo"
