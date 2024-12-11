@@ -97,7 +97,7 @@ const Home = () => {
         {/* TODO & DONE 리스트 */}
         <div className="flex flex-col sm:flex-row items-stretch justify-center gap-6">
           {/* TODO 섹션 */}
-          <div className="flex-1 rounded-lg shadow-md p-6 flex flex-col">
+          <div className="flex-1 rounded-lg p-6 flex flex-col">
             <div className="flex items-center h-10">
               <Image src="/todo.png" alt="TODO" width={100} height={36} />
             </div>
@@ -124,7 +124,7 @@ const Home = () => {
           </div>
 
           {/* DONE 섹션 */}
-          <div className="flex-1 rounded-lg shadow-md p-6 flex flex-col">
+          <div className="flex-1 rounded-lg p-6 flex flex-col">
             <div className="flex items-center h-10">
               <Image src="/done.png" alt="DONE" width={100} height={36} />
             </div>
