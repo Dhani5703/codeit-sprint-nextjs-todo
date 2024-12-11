@@ -43,14 +43,14 @@ const TodoItem: React.FC<TodoItemProps> = ({
         <input
           type="text"
           value={name}
-          onChange={(e) => onEditName(e.target.value)} // 이름 변경 처리
+          onChange={(e) => onEditName?.(e.target.value)} // 이름 변경 처리
           className="flex-1 p-2 rounded"
         />
         </div>
       ) : (
-        <span
+        <span 
           onClick={isDetailPage ? undefined : () => onViewDetails?.(id)}
-          className={`flex-1 ${completed ? "text-gray-400" : ""} cursor-pointer`}
+          className={`flex-1 ${completed ? "text-gray-400" : ""} cursor-pointer truncate`}
           style={{
             pointerEvents: isDetailPage ? "none" : "auto",
             whiteSpace: "nowrap",

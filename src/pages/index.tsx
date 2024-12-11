@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import Header from "../components/Header";
-import TodoList from "../components/TodoList";
-import TodoInput from "../components/TodoInput";
+import Header from "@/components/Header";
+import TodoList from "@/components/TodoList";
+import TodoInput from "@/components/TodoInput";
 import {
   fetchTodoItems,
   createTodoItem,
   updateTodoItem,
-} from "../services/todoService";
-import { tenantId } from "../utils/apiClient";
-import { Todo } from "../types/types";
-import { TodoItem } from "@/components/TodoItem";
+} from "@/services/todoService";
+import { tenantId } from "@/utils/apiClient";
+import { Todo } from "@/types/types";
+// import TodoItem  from "@/components/TodoItem";
 import "../app/globals.css";
 
 const safeTenantId = tenantId as string;
@@ -26,10 +26,10 @@ const Home = () => {
     const loadTodos = async () => {
       try {
         const items = await fetchTodoItems(safeTenantId || "");
-        const mappedTodos = items.map((item: TodoItem) => ({
+        const mappedTodos = items.map((item: Todo) => ({
           id: item.id,
           name: item.name,
-          completed: item.isCompleted,
+          completed: item.completed,
         }));
         setTodos(mappedTodos);
         console.log(mappedTodos);
