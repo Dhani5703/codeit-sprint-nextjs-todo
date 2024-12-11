@@ -111,7 +111,7 @@ const TodoDetailPage = () => {
       <Header />
       <div className="bg-white p-6 flex-1 w-full max-w-4xl space-y-6 mx-auto">
         <div className="flex justify-center w-full">
-          <div className="w-2/5">
+          <div className="w-3/5">
             <TodoItem
               id={todo.id}
               name={todo.name}

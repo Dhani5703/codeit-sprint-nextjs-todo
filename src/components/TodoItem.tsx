@@ -32,7 +32,7 @@ const TodoItem: React.FC<TodoItemProps> = ({
       style={{
         backgroundImage: `url('/Property 1=${completed ? "Variant2" : "Default"}.png')`,
         backgroundRepeat: "no-repeat",
-        backgroundSize: "contain", // 상세 페이지에서 배경 이미지 크기 고정
+        backgroundSize: "100% 100%", // 상세 페이지에서 배경 이미지 크기 고정
         backgroundPosition: "center",
         padding: "8px",
         display: "flex",
