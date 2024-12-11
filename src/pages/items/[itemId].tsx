@@ -15,6 +15,7 @@ import "../../app/globals.css";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 const TodoDetailPage = () => {
   const [todo, setTodo] = useState<any>(null); // 초기 상태를 null로 설정
+  const [editedName, setEditedName] = useState<string>("");
   const [editedMemo, setEditedMemo] = useState<string>("");
   const router = useRouter();
   const { itemId } = router.query;
@@ -27,6 +28,7 @@ const TodoDetailPage = () => {
       try {
         const todoDetails = await fetchTodoItemById(tenantId, Number(itemId));
         setTodo(todoDetails);
+        setEditedName(todoDetails.name);
         setEditedMemo(todoDetails.memo);
         console.log(todoDetails);
       } catch (error) {
@@ -52,20 +54,23 @@ const TodoDetailPage = () => {
     }
   };
 
-  // 상세 페이지에서 메모 항목을 수정하는 부분
+  // 상세 페이지에서 수정하는 부분
   const handleUpdate = async () => {
     if (!todo) return;
 
+    console.log("수정하려는 데이터:", { name: editedName, memo: editedMemo });
+
     try {
       const updatedItem = await updateTodoItem(Number(itemId), {
-        memo: editedMemo,
+        name: editedName,
+        memo: editedMemo
       });
       setTodo(updatedItem); // 수정된 항목을 todo 상태에 반영
-      alert("메모가 수정되었습니다.");
+      alert("할 일이 수정되었습니다.");
       router.push("/"); // 홈 페이지로 이동
     } catch (error) {
       console.error("Error updating todo item:", error);
-      alert("메모 수정에 실패했습니다.");
+      alert("할 일 수정에 실패했습니다.");
     }
   };
 
@@ -114,10 +119,15 @@ const TodoDetailPage = () => {
           <div className="w-3/5">
             <TodoItem
               id={todo.id}
-              name={todo.name}
+              name={editedName ||todo.name}
               completed={todo.isCompleted}
               onToggleComplete={toggleCompletion}
+              onEditName={(newName) => {
+                console.log("Name updated to:", newName);
+                setEditedName(newName); // 입력값을 상태로 업데이트
+              }}
               isDetailPage={true}
+              isEditable={true}
             />
           </div>
         </div>
@@ -167,7 +177,7 @@ const TodoDetailPage = () => {
         <div className="flex justify-end mt-4 md:mt-8 gap-4">
           <div className="flex w-full justify-end">
             <Image
-              src={`/Edit, Large, ${editedMemo ? "Active" : "Default"}.png`}
+              src={`/Edit, Large, ${editedMemo && editedName ? "Active" : "Default"}.png`}
               alt="수정완료"
               className="cursor-pointer mt-4"
               width={168}

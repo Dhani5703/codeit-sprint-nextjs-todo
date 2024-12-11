@@ -1,13 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
-
-export interface TodoItem {
-  id: number;
-  name: string;
-  isCompleted: boolean;
-  memo?: string;
-  imageUrl?: string;
-}
 
 export interface TodoItemProps {
   id: number;
@@ -15,7 +7,9 @@ export interface TodoItemProps {
   completed: boolean;
   onToggleComplete: (id: number, isCompleted: boolean) => void;
   onViewDetails?: (id: number) => void;
+  onEditName: (newName: string) => void;// 이름 수정 콜백
   isDetailPage?: boolean;
+  isEditable?: boolean; // 이름 수정 가능 여부
 }
 
 const TodoItem: React.FC<TodoItemProps> = ({
@@ -24,20 +18,30 @@ const TodoItem: React.FC<TodoItemProps> = ({
   completed,
   onToggleComplete,
   onViewDetails,
+  onEditName,
   isDetailPage = false,
+  isEditable = false,
 }) => {
+  const [editingName, setEditingName] = useState(name);
+
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const updatedName = e.target.value;
+    setEditingName(updatedName); // 내부 상태 업데이트
+    onEditName(updatedName); // 부모로 업데이트 전달
+  };
+
   return (
     <div
       className="todo-item flex items-center p-2 mb-2 border-b"
       style={{
         backgroundImage: `url('/Property 1=${completed ? "Variant2" : "Default"}.png')`,
         backgroundRepeat: "no-repeat",
-        backgroundSize: "100% 100%", // 상세 페이지에서 배경 이미지 크기 고정
+        backgroundSize: "100% 100%",
         backgroundPosition: "center",
         padding: "8px",
         display: "flex",
-        justifyContent: "space-between", // 텍스트와 이미지 간격을 맞추기
-        alignItems: "center", // 텍스트와 이미지를 수직 정렬
+        justifyContent: "space-between",
+        alignItems: "center",
       }}
     >
       <Image
@@ -48,17 +52,28 @@ const TodoItem: React.FC<TodoItemProps> = ({
         width={32}
         height={32}
       />
-      <span
-        onClick={isDetailPage ? undefined : () => onViewDetails?.(id)}
-        className={`flex-1 ${completed ? "text-gray-400" : ""} cursor-pointer`}
-        style={{
-          pointerEvents: isDetailPage ? "none" : "auto",
-          whiteSpace: "nowrap",
-          overflow: "hidden",
-        }}
-      >
-        {name}
-      </span>
+      {isEditable ? (
+        <div className="flex items-center flex-1">
+          <input
+            type="text"
+            value={editingName}
+            onChange={handleNameChange}
+            className="flex-1 p-2 rounded"
+          />
+        </div>
+      ) : (
+        <span
+          onClick={isDetailPage ? undefined : () => onViewDetails?.(id)}
+          className={`flex-1 ${completed ? "text-gray-400" : ""} cursor-pointer`}
+          style={{
+            pointerEvents: isDetailPage ? "none" : "auto",
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+          }}
+        >
+          {name}
+        </span>
+      )}
     </div>
   );
 };
