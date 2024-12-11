@@ -93,6 +93,20 @@ const TodoDetailPage = () => {
   ) => {
     const file = event.target.files?.[0];
     if (file) {
+      // 파일 이름이 영어로만 이루어졌는지 확인
+      const fileName = file.name;
+      const fileNameRegex = /^[a-zA-Z_-]+$/;
+      if (!fileNameRegex.test(fileName)) {
+        alert("이미지 파일 이름은 영문자만 포함됩니다.");
+        return;
+      }
+      // 파일 크기가 5MB 이하인지 확인
+      const maxSize = 5 * 1024 * 1024; // 5MB
+      if (file.size > maxSize) {
+        alert("파일 크기는 5MB 이하로 업로드해 주세요.");
+        return;
+      }
+  
       try {
         const uploadedImageUrl = await uploadImage(tenantId, file);
         setTodo((prevTodo: any) => ({
@@ -104,6 +118,7 @@ const TodoDetailPage = () => {
       }
     }
   };
+  
 
   // 삭제
   const handleDelete = async () => {
