@@ -1,7 +1,6 @@
-// src/services/todoService.ts
 import apiClient from "../utils/apiClient";
+import uploadApiClient from '../utils/uploadApiClient';
 import { tenantId } from "../utils/apiClient";
-import axios from "axios";
 
 //export const tenantId = process.env.NEXT_PUBLIC_TENANT_ID; // 테넌트 ID
 
@@ -109,20 +108,14 @@ export const uploadImage = async (tenantId: string, file: File): Promise<string 
   formData.append("image", file); // 'image'는 요청 본문에서 이미지의 필드명
 
   try {
-    const response = await axios.post(
-      `${process.env.NEXT_PUBLIC_API_URL}/${tenantId}/images/upload`, 
+    const response = await uploadApiClient.post(
+      `/${tenantId}/images/upload`, 
       formData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data", // FormData에 적합한 Content-Type
-        },
-      }
     );
-    console.log(response.data);
+    //console.log(response.data);
     if (response.status === 201) {
       return response.data.url || "No URL returned"; // 반환된 데이터에 URL이 있는지 확인
-    }
-    else if (response.status === 200) {
+    } else if (response.status === 200) {
       return response.data.url; // 서버에서 반환한 URL을 반환
     } else {
       throw new Error(
@@ -133,6 +126,6 @@ export const uploadImage = async (tenantId: string, file: File): Promise<string 
     if (error instanceof Error) {
       console.error("Error uploading image:", error.message);
     }
-    return undefined; // 실패한 경우 undefined 반환
+    return undefined;
   }
 };
