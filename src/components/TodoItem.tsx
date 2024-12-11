@@ -7,7 +7,7 @@ export interface TodoItemProps {
   completed: boolean;
   onToggleComplete: (id: number, isCompleted: boolean) => void;
   onViewDetails?: (id: number) => void;
-  onEditName: (newName: string) => void; // 이름 수정 콜백
+  onEditName?: (newName: string) => void; // 이름 수정 콜백
   isDetailPage?: boolean;
   isEditable?: boolean; // 이름 수정 가능 여부
 }
